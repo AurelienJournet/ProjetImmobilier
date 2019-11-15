@@ -2,6 +2,8 @@ package com.fr.adaming.web.controller;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +31,7 @@ public interface IBienController {
 //	Bien findByPrix(int prix);
 
 	@PostMapping(path = "/save")
-	Bien saveBien(@RequestBody Bien bien);
+	Bien saveBien(@Valid @RequestBody Bien bien);
 
 	@PutMapping(path = "/update")
 	Bien updateBien(Bien bien);
