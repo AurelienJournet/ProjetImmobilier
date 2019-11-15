@@ -3,6 +3,7 @@ package com.fr.adaming.service.impl;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.fr.adaming.entity.Agent;
@@ -31,12 +32,19 @@ public class AgentServiceImpl implements IAgentService {
 
 	@Override
 	public Agent saveAgent(Agent agent) {
-		return dao.save(agent);
+		
+		if (!dao.existsById(agent.getId()))
+			return dao.save(agent);
+		else
+			return null;
 	}
 
 	@Override
 	public Agent updateAgent(Agent agent) {
-		return dao.save(agent);
+		if (dao.existsById(agent.getId()))
+			return dao.save(agent);
+		else
+			return null;
 	}
 
 	@Override
