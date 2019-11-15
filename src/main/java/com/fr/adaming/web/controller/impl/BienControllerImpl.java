@@ -50,7 +50,7 @@ public class BienControllerImpl implements IBienController {
 
 	@Override
 	public Bien modifEtatVente(BienDto biendto) {
-		service.getBienById(biendto.getId()).setVendu(biendto.isVendu());
+		service.getBienById(biendto.getId()).setVendu(biendto.getVendu());
 		return service.getBienById(biendto.getId());
 	}
 }

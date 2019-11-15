@@ -14,6 +14,6 @@ public interface BienRepository extends JpaRepository<Bien, Long> {
 //	boolean existByVendu(boolean vendu);
 	
 	@Query(value = "UPDATE Bien SET vendu= :vendu WHERE id= :id")
-	Bien modifEtatVente(long id, boolean vendu);
+	Bien modifEtatVente(long id, Boolean vendu);
 	
 }
