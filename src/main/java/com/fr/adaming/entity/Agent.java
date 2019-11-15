@@ -18,13 +18,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Agent extends User {
-
+	
 	private String pwd;
 
 	private LocalDate dateRecrutement;
 	
-	@OneToMany
-	@Column(name = "id_agent")
+	@OneToMany(mappedBy = "agentAttribue")
 	private List<Client> client;
 
 	@Override

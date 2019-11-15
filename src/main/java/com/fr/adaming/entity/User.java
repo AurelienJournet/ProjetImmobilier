@@ -17,8 +17,7 @@ import lombok.ToString;
 @Getter @Setter @NoArgsConstructor @ToString
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
-
-public class User {
+public abstract class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

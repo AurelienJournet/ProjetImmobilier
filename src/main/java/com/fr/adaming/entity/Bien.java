@@ -26,6 +26,5 @@ public class Bien {
 	private boolean vendu;
 	
 	@ManyToOne
-	@Column(name = "id_client")
 	private Client client;
 }
