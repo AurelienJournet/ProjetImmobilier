@@ -11,13 +11,13 @@ public class BienDto {
 
 	private Long id;
 	
-	private int prix;
+	private Integer prix;
 	
-	private boolean vendu;
+	private Boolean vendu;
 	
 	private Client client;
 
-	public BienDto(Long id, int prix, boolean vendu, Client client) {
+	public BienDto(Long id, Integer prix, Boolean vendu, Client client) {
 		super();
 		this.id = id;
 		this.prix = prix;
@@ -29,13 +29,13 @@ public class BienDto {
 		super();
 	}
 	
-	public BienDto(int prix, boolean vendu, Client client) {
+	public BienDto(Integer prix, Boolean vendu, Client client) {
 		this.prix = prix;
 		this.vendu = vendu;
 		this.client = client;
 	}
 	
-	public BienDto(int prix, boolean vendu) {
+	public BienDto(Integer prix, Boolean vendu) {
 		this.prix = prix;
 		this.vendu = vendu;
 	}

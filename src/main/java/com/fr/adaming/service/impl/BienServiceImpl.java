@@ -3,8 +3,8 @@ package com.fr.adaming.service.impl;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.repository.BienRepository;
@@ -12,7 +12,6 @@ import com.fr.adaming.service.IBienService;
 
 @Service("bienService")
 public class BienServiceImpl implements IBienService {
-
 
 	@Autowired
 	private BienRepository dao;
@@ -28,14 +27,18 @@ public class BienServiceImpl implements IBienService {
 			return null;
 	}
 
-	@Transactional
-	public Bien modifEtatVente(Long id, boolean vendu) {
-		return dao.modifEtatVente(id, vendu);
+	public Bien modifEtatVente(Long id, Boolean vendu) {
+		dao.modifEtatVente(id, vendu);
+		return dao.findById(id).get();
 	}
 
 	@Override
 	public Bien saveBien(Bien bien) {
-		return dao.save(bien);
+		if (dao.exists(Example.of(bien))) {
+			return null;
+		} else {
+			return dao.save(bien);
+		}
 	}
 
 	@Override
@@ -50,6 +53,10 @@ public class BienServiceImpl implements IBienService {
 
 	@Override
 	public Bien updateBien(Bien bien) {
-		return dao.save(bien);
+		if (dao.exists(Example.of(bien))) {
+			return dao.save(bien);
+		} else {
+			return null;
+		}
 	}
 }

@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import com.fr.adaming.enumeration.TypeClient;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,12 +18,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Agent extends User {
+
 	
 	@Column(nullable=false)
 	private String pwd;
 
 	private LocalDate dateRecrutement;
-	
+
 	@OneToMany(mappedBy = "agentAttribue")
 	private List<Client> client;
 	

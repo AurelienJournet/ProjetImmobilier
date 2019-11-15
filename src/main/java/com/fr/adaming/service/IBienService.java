@@ -16,5 +16,5 @@ public interface IBienService {
 	
 	boolean deleteBien(Long id);
 	
-	Bien modifEtatVente(Long id, boolean vendu);
+	Bien modifEtatVente(Long id, Boolean vendu);
 }

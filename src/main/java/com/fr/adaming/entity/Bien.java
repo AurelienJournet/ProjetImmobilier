@@ -20,11 +20,43 @@ public class Bien {
 	private Long id;
 	
 	@Column(nullable = false)
-	private int prix;
+	private Integer prix;
 	
 	@Column(nullable = false)
-	private boolean vendu;
+	private Boolean vendu;
 	
 	@ManyToOne
 	private Client client;
+
+	public Bien(Integer prix, Boolean vendu) {
+		super();
+		this.prix = prix;
+		this.vendu = vendu;
+	}
+
+	public Bien(Long id, Integer prix, Boolean vendu, Client client) {
+		super();
+		this.id = id;
+		this.prix = prix;
+		this.vendu = vendu;
+		this.client = client;
+	}
+
+	public Bien(Integer prix, Boolean vendu, Client client) {
+		super();
+		this.prix = prix;
+		this.vendu = vendu;
+		this.client = client;
+	}
+
+	public Bien(Long id, Integer prix, Boolean vendu) {
+		super();
+		this.id = id;
+		this.prix = prix;
+		this.vendu = vendu;
+	}
+	
+	
+	
+	
 }

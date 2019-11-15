@@ -12,7 +12,7 @@ public class BienConverter {
 		Bien bien = new Bien();
 		bien.setId(dto.getId());
 		bien.setPrix(dto.getPrix());
-		bien.setVendu(dto.isVendu());
+		bien.setVendu(dto.getVendu());
 		bien.setClient(dto.getClient());
 		
 		return bien;
@@ -22,7 +22,7 @@ public class BienConverter {
 		BienDto dto = new BienDto();
 		dto.setId(bien.getId());
 		dto.setPrix(bien.getPrix());
-		dto.setVendu(bien.isVendu());
+		dto.setVendu(bien.getVendu());
 		dto.setClient(bien.getClient());
 		return dto;
 	}

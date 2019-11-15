@@ -1,5 +1,6 @@
 package com.fr.adaming.service.impl;
 
+<<<<<<< HEAD
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -9,6 +10,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.junit.Rule;
+=======
+>>>>>>> 8f95c0007689c393fc0ff572d1940cd03500b10f
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;

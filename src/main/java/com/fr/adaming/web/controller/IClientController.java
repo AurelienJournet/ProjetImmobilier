@@ -6,26 +6,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.entity.Client;
 import com.fr.adaming.web.dto.ClientDto;
 
-@RequestMapping(path="api/client")
+@RequestMapping(path = "api/client")
 public interface IClientController {
 
-	@PostMapping(path="/add", consumes = "application/json")
+	@PostMapping(path = "/add", consumes = "application/json")
 	public Client AddClient(@RequestBody ClientDto dto);
-	
-	@GetMapping(path="/findAll")
+
+	@GetMapping(path = "/findAll")
 	public List<Client> findAllClients();
-	
-	@GetMapping(path="/{id}/findById")
+
+	@GetMapping(path = "/{id}/findById")
 	public Client findClientById(Long id);
-	
-	@PostMapping(path="/update", consumes = "application/json")
+
+	@PostMapping(path = "/update", consumes = "application/json")
 	public boolean updateClient(@RequestBody ClientDto dto);
-	
-	@PostMapping(path="/delete", consumes = "application/json")
+
+	@PostMapping(path = "/delete", consumes = "application/json")
 	public boolean deleteClient(@RequestBody ClientDto dto);
 }
