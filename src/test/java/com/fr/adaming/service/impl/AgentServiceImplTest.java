@@ -71,9 +71,10 @@ public class AgentServiceImplTest {
 
 	@Test
 	@Sql(statements = { "Truncate Agent",
-			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (4,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+
 	public void createAgentWithAlreadyExistingEmail_shouldReturnNull() {
-		Agent agent = new Agent(1L,"agent@agent.fr","pwd", "NomClient", LocalDate.of(2019, 10, 15));
+		Agent agent = new Agent(5L,"agent@agent.fr","pwd", "NomClient", LocalDate.of(2019, 10, 15));
 		assertNull(service.saveAgent(agent));
 	}
 
@@ -91,6 +92,7 @@ public class AgentServiceImplTest {
 	public void updateUnknowAgent_shouldReturnFalse() {
 		Agent agent =new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
 		assertNull(service.updateAgent(agent));
+>>>>>>> 85ecba0dab4a31d8f4864c9f3b2386472b59b17a
 	}
 
 	@Test
