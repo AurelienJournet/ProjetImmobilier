@@ -19,7 +19,7 @@ import com.fr.adaming.web.dto.ClientDto;
 public interface IClientController {
 
 	@PostMapping(path = "/add", consumes = "application/json")
-	public Client AddClient(@RequestBody ClientDto dto);
+	public Client addClient(@RequestBody ClientDto dto);
 
 	@GetMapping(path = "/findAll")
 	public List<Client> findAllClients();

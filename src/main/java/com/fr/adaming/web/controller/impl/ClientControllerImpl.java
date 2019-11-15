@@ -26,7 +26,7 @@ public class ClientControllerImpl implements IClientController {
 		@Qualifier("clientService")
 		private IClientService service;
 		
-		public Client AddClient(@Valid ClientDto dto) {
+		public Client addClient(@Valid ClientDto dto) {
 			return service.addClient(ClientConverter.DtoClientToClient(dto));
 		}
 
