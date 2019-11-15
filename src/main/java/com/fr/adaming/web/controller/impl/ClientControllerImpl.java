@@ -18,12 +18,15 @@ import com.fr.adaming.web.dto.RegisterDto;
 
 @RestController
 public class ClientControllerImpl implements IClientController {
-
+	/**
+	 * @author Aurélien
+	 *
+	 */
 		@Autowired
 		@Qualifier("clientService")
 		private IClientService service;
 		
-		public Client AddClient(@Valid ClientDto dto) {
+		public Client addClient(@Valid ClientDto dto) {
 			return service.addClient(ClientConverter.DtoClientToClient(dto));
 		}
 

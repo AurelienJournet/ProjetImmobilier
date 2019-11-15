@@ -2,7 +2,10 @@ package com.fr.adaming.web.converter;
 
 import com.fr.adaming.entity.Client;
 import com.fr.adaming.web.dto.ClientDto;
-
+/**
+ * @author Aurélien
+ *
+ */
 public class ClientConverter {
 	
 	 public static Client DtoClientToClient(ClientDto dto) {

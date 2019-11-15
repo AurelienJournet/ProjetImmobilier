@@ -8,7 +8,10 @@ import com.fr.adaming.enumeration.TypeClient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * @author Aurélien
+ *
+ */
 @Getter @Setter @NoArgsConstructor
 public class ClientDto {
 	

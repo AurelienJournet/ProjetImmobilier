@@ -34,12 +34,19 @@ public class AgentServiceImpl implements IAgentService {
 
 	@Override
 	public Agent saveAgent(Agent agent) {
-		return dao.save(agent);
+		
+		if (!dao.existsById(agent.getId()))
+			return dao.save(agent);
+		else
+			return null;
 	}
 
 	@Override
 	public Agent updateAgent(Agent agent) {
-		return dao.save(agent);
+		if (dao.existsById(agent.getId()))
+			return dao.save(agent);
+		else
+			return null;
 	}
 
 	@Override

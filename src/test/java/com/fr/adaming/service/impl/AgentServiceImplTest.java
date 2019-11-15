@@ -36,7 +36,10 @@ public class AgentServiceImplTest {
 	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createValidAgent_shouldReturnAgentWithIdNotNull() {
 
-		Agent agent = new Agent("agent@agent.fr", "pwd", "NomAgent", LocalDate.of(2019, 10, 15));
+
+		
+		Agent agent = new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
+
 		agent = service.saveAgent(agent);
 		assertTrue(agent.getId() != null);
 		assertEquals(agent.getEmail(), "agent@agent.fr");
@@ -50,17 +53,17 @@ public class AgentServiceImplTest {
 
 	@Test
 	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void createNotValidAgent_shouldReturnException() {
-
+	public void createNotValidAgent_shouldThrowException() {
 		exceptionRule.expect(DataIntegrityViolationException.class);
+		
 		Agent agent = new Agent();
 		agent.setEmail(null);
+		agent.setId(1L);
 		service.saveAgent(agent);
 	}
 
 	@Test
-	@Sql(statements = { "Truncate Agent",
-			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = {"Truncate Agent","Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createExistingAgent_shouldReturnNull() {
 		Agent agent = service.getAgentById(1L);
 		assertNull(service.saveAgent(agent));
@@ -69,10 +72,25 @@ public class AgentServiceImplTest {
 	@Test
 	@Sql(statements = { "Truncate Agent",
 			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void createAgentWithAlreadyExistingEmail_shouldReturnException() {
-		exceptionRule.expect(DataIntegrityViolationException.class);
-		Agent agent = new Agent("agent@agent.fr", "pwd", "NomAgent", LocalDate.of(2019, 10, 15));
-		service.saveAgent(agent);
+	public void createAgentWithAlreadyExistingEmail_shouldReturnNull() {
+		Agent agent = new Agent(1L,"agent@agent.fr","pwd", "NomClient", LocalDate.of(2019, 10, 15));
+		assertNull(service.saveAgent(agent));
+	}
+
+	@Test
+	@Sql(statements = { "Truncate Agent",
+	"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (404,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgent_shouldReturnTrue() {
+		Agent agent=service.getAgentById(404L);
+		agent.setDateRecrutement(LocalDate.of(2018, 9, 13));
+		assertEquals(service.updateAgent(agent).getDateRecrutement(),LocalDate.of(2018, 9, 13));
+	}
+
+	@Test
+	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateUnknowAgent_shouldReturnFalse() {
+		Agent agent =new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
+		assertNull(service.updateAgent(agent));
 	}
 
 	@Test
@@ -103,5 +121,4 @@ public class AgentServiceImplTest {
 	public void getUnknowAgentById_shouldReturnNull() {
 		assertNull(service.getAgentById(1L));
 	}
-
 }

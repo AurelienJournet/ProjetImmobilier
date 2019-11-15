@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fr.adaming.entity.Client;
 import com.fr.adaming.web.dto.ClientDto;
 
+
+/**
+ * @author Aurélien
+ *
+ */
 @RequestMapping(path = "api/client")
 public interface IClientController {
 
 	@PostMapping(path = "/add", consumes = "application/json")
-	public Client AddClient(@RequestBody ClientDto dto);
+	public Client addClient(@RequestBody ClientDto dto);
 
 	@GetMapping(path = "/findAll")
 	public List<Client> findAllClients();

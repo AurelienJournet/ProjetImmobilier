@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
+/**
+ * @author Aurélien
+ *
+ */
 @Getter @Setter @NoArgsConstructor @ToString
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass

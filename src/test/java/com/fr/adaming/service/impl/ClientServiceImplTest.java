@@ -21,7 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.fr.adaming.entity.Client;
 import com.fr.adaming.enumeration.TypeClient;
 import com.fr.adaming.service.IClientService;
-
+/**
+ * @author Aurélien
+ *
+ */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ClientServiceImplTest {
@@ -39,6 +42,13 @@ public class ClientServiceImplTest {
 			assertEquals(client.getEmail(),"client@client.fr");
 			assertEquals(client.getFullName(),"NomClient");
 			assertEquals(client.getType(),TypeClient.ACHETEUR);
+		}
+		
+		@Test
+		@Sql(statements = {"Truncate Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		public void createAlreadyExistingClient_shouldReturnNull() {
+		
+			assertNull(service.addClient(service.findClientById(1L)));		
 		}
 		
 		@Rule
