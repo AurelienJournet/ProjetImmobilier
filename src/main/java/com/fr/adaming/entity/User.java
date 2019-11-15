@@ -13,20 +13,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Getter @Setter @NoArgsConstructor @ToString
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
+
 public class User {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(nullable = false,unique = true)
+
+	@Column(nullable = false, unique = true)
 	private String email;
-	
+
 	@Column(nullable = false)
 	private String fullName;
-	
+
 	private int telephone;
 }
