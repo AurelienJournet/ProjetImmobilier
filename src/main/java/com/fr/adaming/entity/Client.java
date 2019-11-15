@@ -35,4 +35,11 @@ public class Client extends User {
 		this.setFullName(fullName);
 		this.type=type;
 	}
+	
+	public Client(Long id,String email,String fullName,TypeClient type) {
+		this.setId(id);
+		this.setEmail(email);
+		this.setFullName(fullName);
+		this.type=type;
+	}
 }
