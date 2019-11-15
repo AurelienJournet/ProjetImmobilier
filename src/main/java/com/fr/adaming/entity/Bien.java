@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,8 @@ public class Bien {
 	
 	@Column(nullable = false)
 	private boolean vendu;
+	
+	@ManyToOne
+	@Column(name = "id_client")
+	private Client client;
 }

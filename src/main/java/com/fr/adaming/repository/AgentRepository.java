@@ -8,5 +8,6 @@ import com.fr.adaming.entity.Agent;
 @Repository
 public interface AgentRepository extends JpaRepository<Agent, Long> {
 
-	
+	boolean existsById(Long id);
+
 }

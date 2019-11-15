@@ -1,13 +1,54 @@
 package com.fr.adaming.service.impl;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.fr.adaming.entity.Bien;
 import com.fr.adaming.repository.BienRepository;
+import com.fr.adaming.service.IBienService;
 
 @Service("bienService")
-public class BienServiceImpl {
+public class BienServiceImpl implements IBienService {
 
 	@Autowired
 	private BienRepository dao;
+
+	public Collection<Bien> getAllBiens() {
+		return dao.findAll();
+	}
+
+	public Bien getBienById(Long id) {
+		if (dao.existsById(id))
+			return dao.findById(id).get();
+		else
+			return null;
+	}
+
+	@Transactional
+	public Bien modifEtatVente(Long id, boolean vendu) {
+		return dao.modifEtatVente(id, vendu);
+	}
+
+	@Override
+	public Bien saveBien(Bien bien) {
+		return dao.save(bien);
+	}
+
+	@Override
+	public boolean deleteBien(Long id) {
+		if (dao.existsById(id)) {
+			dao.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public Bien updateBien(Bien bien) {
+		return dao.save(bien);
+	}
 }
