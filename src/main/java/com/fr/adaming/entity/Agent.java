@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.fr.adaming.enumeration.TypeClient;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,59 +21,26 @@ import lombok.ToString;
 @ToString
 public class Agent extends User {
 	
+	@Column(nullable=false)
 	private String pwd;
 
 	private LocalDate dateRecrutement;
 	
 	@OneToMany(mappedBy = "agentAttribue")
 	private List<Client> client;
-
-	@Override
-	public String getEmail() {
-		// TODO Auto-generated method stub
-		return super.getEmail();
+	
+	public Agent(String email,String pwd,String fullName,LocalDate dateRecrutement) {
+		this.pwd=pwd;
+		this.setEmail(email);
+		this.setFullName(fullName);
+		this.dateRecrutement=dateRecrutement;
 	}
-
-	@Override
-	public String getFullName() {
-		// TODO Auto-generated method stub
-		return super.getFullName();
+	
+	public Agent(Long id,String email,String pwd,String fullName,LocalDate dateRecrutement) {
+		this.setId(id);
+		this.pwd=pwd;
+		this.setEmail(email);
+		this.setFullName(fullName);
+		this.dateRecrutement=dateRecrutement;
 	}
-
-	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return super.getId();
-	}
-
-	@Override
-	public int getTelephone() {
-		// TODO Auto-generated method stub
-		return super.getTelephone();
-	}
-
-	@Override
-	public void setEmail(String email) {
-		// TODO Auto-generated method stub
-		super.setEmail(email);
-	}
-
-	@Override
-	public void setFullName(String fullName) {
-		// TODO Auto-generated method stub
-		super.setFullName(fullName);
-	}
-
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		super.setId(id);
-	}
-
-	@Override
-	public void setTelephone(int telephone) {
-		// TODO Auto-generated method stub
-		super.setTelephone(telephone);
-	}
-
 }
