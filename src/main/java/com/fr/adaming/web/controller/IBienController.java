@@ -28,15 +28,15 @@ public interface IBienController {
 //	@GetMapping(path = "/getByPrix")
 //	Bien findByPrix(int prix);
 
-	@PostMapping(path = "/save")
-	Bien saveBien(@RequestBody Bien bien);
+	@PostMapping(path = "/save", consumes = "application/json")
+	Bien saveBien(@RequestBody BienDto biendto);
 
 	@PutMapping(path = "/update")
-	Bien updateBien(Bien bien);
+	Bien updateBien(BienDto biendto);
 
 	@GetMapping(path = "/{id}/delete")
 	boolean deleteBien(Long id);
 
-	@PostMapping(path = "/etatVente")
+	@PostMapping(path = "/etatVente", consumes = "application/json")
 	Bien modifEtatVente(@RequestBody BienDto biendto);
 }

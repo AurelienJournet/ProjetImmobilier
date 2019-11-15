@@ -42,4 +42,12 @@ public class BienDto {
 		this.prix = prix;
 		this.vendu = vendu;
 	}
+
+	public BienDto(Long id, Boolean vendu) {
+		super();
+		this.id = id;
+		this.vendu = vendu;
+	}
+	
+	
 }

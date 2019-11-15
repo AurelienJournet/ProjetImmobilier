@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.entity.Agent;
+import com.fr.adaming.web.dto.AgentDto;
 /**
  * @author VITTOZ Guillaume
  *
@@ -24,11 +25,11 @@ public interface IAgentController {
 	@GetMapping(path = "/getById")
 	Agent getAgentById(Long id);
 
-	@PostMapping(path = "/save")
-	Agent saveAgent(@RequestBody Agent agent);
+	@PostMapping(path = "/save", consumes = "application/json")
+	Agent saveAgent(@RequestBody AgentDto agentDto);
 
 	@PutMapping(path = "/update")
-	Agent updateAgent(Agent agent);
+	Agent updateAgent(AgentDto agentDto);
 
 	@GetMapping(path = "/{id}/delete")
 	boolean deleteAgent(Long id);

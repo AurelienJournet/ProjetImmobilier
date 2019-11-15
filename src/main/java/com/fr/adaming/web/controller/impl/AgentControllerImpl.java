@@ -2,12 +2,16 @@ package com.fr.adaming.web.controller.impl;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.service.IAgentService;
 import com.fr.adaming.web.controller.IAgentController;
+import com.fr.adaming.web.converter.AgentConverter;
+import com.fr.adaming.web.dto.AgentDto;
 /**
  * @author VITTOZ Guillaume
  *
@@ -29,13 +33,13 @@ public class AgentControllerImpl implements IAgentController {
 	}
 
 	@Override
-	public Agent saveAgent(Agent agent) {
-		return service.saveAgent(agent);
+	public Agent saveAgent(@Valid AgentDto agentDto) {
+		return service.saveAgent(AgentConverter.convert(agentDto));
 	}
 
 	@Override
-	public Agent updateAgent(Agent agent) {
-		return service.updateAgent(agent);
+	public Agent updateAgent(AgentDto agentDto) {
+		return service.updateAgent(AgentConverter.convert(agentDto));
 	}
 
 	@Override
