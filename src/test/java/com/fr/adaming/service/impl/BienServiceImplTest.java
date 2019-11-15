@@ -1,5 +1,6 @@
 package com.fr.adaming.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -41,7 +42,9 @@ public class BienServiceImplTest {
 	@Sql(statements = "truncate bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createValidBien_shouldReturnBienWithIdNotNull() {
 		Bien bien = new Bien(300000, true);
-		service.saveBien(bien);
+		bien = service.saveBien(bien);
+		assertEquals(bien.getPrix(), (Integer) 300000);
+		assertEquals(bien.getVendu(), true);
 	}
 
 	@Rule
@@ -55,18 +58,22 @@ public class BienServiceImplTest {
 		service.saveBien(bien);
 	}
 
-//	@Test
-//	@Sql(statements = {"truncate bien", "INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void createExistingBien_shouldReturnException() {
-//		Bien bien = new Bien(1L, 250000, false);
-//	}
+	@Test
+	@Sql(statements = {"truncate bien", "INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void createExistingBien_shouldReturnException() {
+		Bien bien = new Bien(1L, 250000, false);
+	}
 
 	@Test
 	@Sql(statements = { "truncate bien",
-			"INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+			"INSERT INTO bien (id, prix, vendu) VALUES(3, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateValidBien_shouldReturnBienUpdated() {
-		Bien bien = new Bien(1L, 285000, true);
-		service.updateBien(bien);
+		Bien bien = service.getBienById(3L);
+		bien.setPrix(2850000);
+		bien.setVendu(true);
+		Bien bienUpdated = service.updateBien(bien);
+		assertEquals(bienUpdated.getPrix(), (Integer) 2850000);
+		assertEquals(bienUpdated.getVendu(), true);
 	}
 
 	@Test
@@ -95,7 +102,9 @@ public class BienServiceImplTest {
 	@Sql(statements = { "truncate bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(2, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getValidBienById_shouldReturnThisBien() {
-		service.getBienById(2L);
+		Bien bien = service.getBienById(2L);
+		assertEquals(bien.getPrix(), (Integer) 200000);
+		assertEquals(bien.getVendu(), false);
 	}
 
 	@Test
@@ -108,7 +117,9 @@ public class BienServiceImplTest {
 	@Sql(statements = { "truncate bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void modifEtatVenteValidBien_shouldReturnThisUpdatedBien() {
-		service.modifEtatVente(1L, true);
+		Bien bien = service.modifEtatVente(1L, true);
+		assertEquals(bien.getVendu(), true);
+		assertEquals(bien.getPrix(), (Integer) 250000);
 	}
 
 	@Test

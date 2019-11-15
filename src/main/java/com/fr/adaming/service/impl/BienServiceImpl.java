@@ -53,7 +53,7 @@ public class BienServiceImpl implements IBienService {
 
 	@Override
 	public Bien updateBien(Bien bien) {
-		if (dao.exists(Example.of(bien))) {
+		if (dao.existsById(bien.getId())) {
 			return dao.save(bien);
 		} else {
 			return null;
