@@ -2,7 +2,9 @@ package com.fr.adaming.entity;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fr.adaming.enumeration.TypeClient;
@@ -17,5 +19,10 @@ public class Client extends User {
 	private TypeClient type;
 	
 	@OneToMany
+	@Column(name="id_client")
 	private List<Bien> listeDesBiens;
+	
+	@ManyToOne
+	@Column(name="id_agent")
+	private Agent agentAttribue;
 }
