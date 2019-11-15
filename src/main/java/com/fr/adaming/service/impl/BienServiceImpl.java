@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.repository.BienRepository;
@@ -28,9 +27,9 @@ public class BienServiceImpl implements IBienService {
 			return null;
 	}
 
-	@Transactional
 	public Bien modifEtatVente(Long id, Boolean vendu) {
-		return dao.modifEtatVente(id, vendu);
+		dao.modifEtatVente(id, vendu);
+		return dao.findById(id).get();
 	}
 
 	@Override

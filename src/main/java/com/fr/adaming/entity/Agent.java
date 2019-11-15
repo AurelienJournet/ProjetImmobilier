@@ -3,7 +3,6 @@ package com.fr.adaming.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -22,9 +21,8 @@ public class Agent extends User {
 	private String pwd;
 
 	private LocalDate dateRecrutement;
-	
-	@OneToMany
-	@Column(name = "id_agent")
+
+	@OneToMany(mappedBy = "agentAttribue")
 	private List<Client> client;
 
 	@Override
