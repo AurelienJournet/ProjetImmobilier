@@ -9,7 +9,10 @@ import com.fr.adaming.entity.Bien;
 import com.fr.adaming.service.IBienService;
 import com.fr.adaming.web.controller.IBienController;
 import com.fr.adaming.web.dto.BienDto;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 public class BienControllerImpl implements IBienController {
 
 	@Autowired

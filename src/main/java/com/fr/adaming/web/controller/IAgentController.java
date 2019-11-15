@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.entity.Agent;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @RestController
 @RequestMapping(path = "api/agent")
 public interface IAgentController {

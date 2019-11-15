@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.repository.BienRepository;
 import com.fr.adaming.service.IBienService;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Service("bienService")
 public class BienServiceImpl implements IBienService {
 

@@ -1,17 +1,14 @@
 package com.fr.adaming.service.impl;
 
-<<<<<<< HEAD
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.Rule;
-=======
->>>>>>> 8f95c0007689c393fc0ff572d1940cd03500b10f
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -23,13 +20,14 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fr.adaming.entity.Agent;
-import com.fr.adaming.entity.Client;
-import com.fr.adaming.enumeration.TypeClient;
+import com.fr.adaming.entity.Bien;
 import com.fr.adaming.service.IAgentService;
-
+/**
+ * @author VITTOZ Guillaume & JOURNET Aurelien
+ *
+ */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-
 public class AgentServiceImplTest {
 
 	@Autowired
@@ -60,61 +58,67 @@ public class AgentServiceImplTest {
 		agent.setEmail(null);
 		service.saveAgent(agent);
 	}
+	
+	@Test
+	@Sql(statements = {"Truncate Agent",
+	"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void createExistingAgent_shouldReturnNull() {
+		Agent agent = service.getAgentById(1L);
+		assertNull(service.saveAgent(agent));
+	}
 
 	@Test
 	@Sql(statements = { "Truncate Agent",
 			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createAgentWithAlreadyExistingEmail_shouldReturnException() {
 		exceptionRule.expect(DataIntegrityViolationException.class);
-		Agent agent = new Agent("agent@agent.fr","pwd", "NomClient", LocalDate.of(2019, 10, 15));
+		Agent agent = new Agent("agent@agent.fr","pwd", "NomAgent", LocalDate.of(2019, 10, 15));
 		service.saveAgent(agent);
 	}
 
+//	@Test
+//	@Sql(statements = {"Truncate Agent","insert into Agent (id,email,full_name,telephone,type) values (404,'agent@agent.fr','nomAgent',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+//	public void updateValidAgent_shouldReturnTrue() {
+//		Agent agent=service.getAgentById(404L);
+//		agent.setType(TypeAgent.VENDEUR);
+//		assertTrue(service.updateAgent(agent)); 
+//		assertEquals(service.getAgentById(404L).getType(),TypeAgent.VENDEUR);
+//	}
+//
+//	@Test
+//	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+//	public void updateUnknowAgent_shouldReturnFalse() {
+//		Agent agent = new Agent(1L, "agent@agent.fr", "NomAgent", TypeAgent.ACHETEUR);
+//		assertFalse(service.updateAgent(agent));
+//	}
+//
 	@Test
-	@Sql(statements = {"Truncate Agent","insert into Agent (id,email,full_name,telephone,type) values (404,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void updateValidClient_shouldReturnTrue() {
-		Client client=service.findClientById(404L);
-		client.setType(TypeClient.VENDEUR);
-		assertTrue(service.updateClient(client)); 
-		assertEquals(service.findClientById(404L).getType(),TypeClient.VENDEUR);
+	@Sql(statements = { "Truncate Agent",
+			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void deleteValidAgent_shouldReturnTrue() {
+		assertTrue(service.deleteAgent(1L));
 	}
-//
-//	@Test
-//	@Sql(statements = "Truncate Client", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void updateUnknowClient_shouldReturnFalse() {
-//		Client client = new Client(1L, "client@client.fr", "NomClient", TypeClient.ACHETEUR);
-//		assertFalse(service.updateClient(client));
-//	}
-//
-//	@Test
-//	@Sql(statements = { "Truncate Client",
-//			"Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void deleteValidClient_shouldReturnTrue() {
-//
-//		assertTrue(service.deleteClient(service.findClientById(1L)));
-//	}
-//
-//	@Test
-//	@Sql(statements = { "Truncate Client",
-//			"Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void deleteUnknowClient_shouldReturnFalse() {
-//		Client client = new Client("client2@client.fr", "NomClient2", TypeClient.ACHETEUR);
-//		assertFalse(service.deleteClient(client));
-//	}
-//
-//	@Test
-//	@Sql(statements = { "Truncate Client",
-//			"Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void getValidClientById_shouldReturnThisClient() {
-//		Client client = service.findClientById(1L);
-//		assertEquals(client.getEmail(), "client@client.fr");
-//		assertEquals(client.getFullName(), "nomClient");
-//	}
-//
-//	@Test
-//	@Sql(statements = "Truncate Client", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void getUnknowClientById_shouldReturnNull() {
-//		assertNull(service.findClientById(1L));
-//	}
+
+	@Test
+	@Sql(statements = { "Truncate Agent",
+			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void deleteUnknowAgent_shouldReturnFalse() {
+		assertFalse(service.deleteAgent(404L));
+	}
+
+	@Test
+	@Sql(statements = { "Truncate Agent",
+			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '201-12-25')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void getValidAgentById_shouldReturnThisAgent() {
+		Agent agent = service.getAgentById(1L);
+		assertEquals(agent.getEmail(), "agent@agent.fr");
+		assertEquals(agent.getFullName(), "nomAgent");
+	}
+
+	@Test
+	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void getUnknowAgentById_shouldReturnNull() {
+		assertNull(service.getAgentById(1L));
+	}
 
 }

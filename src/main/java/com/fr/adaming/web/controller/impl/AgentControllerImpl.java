@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.service.IAgentService;
 import com.fr.adaming.web.controller.IAgentController;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 public class AgentControllerImpl implements IAgentController {
 
 	@Autowired

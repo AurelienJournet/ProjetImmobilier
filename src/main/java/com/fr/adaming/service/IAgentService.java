@@ -3,7 +3,10 @@ package com.fr.adaming.service;
 import java.util.Collection;
 
 import com.fr.adaming.entity.Agent;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 public interface IAgentService {
 
 	Collection<Agent> getAllAgents();

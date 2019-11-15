@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.web.dto.BienDto;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @RestController
 @RequestMapping(path = "api/bien")
 public interface IBienController {

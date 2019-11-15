@@ -4,6 +4,10 @@ import java.util.Collection;
 
 import com.fr.adaming.entity.Bien;
 
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 public interface IBienService {
 
 	

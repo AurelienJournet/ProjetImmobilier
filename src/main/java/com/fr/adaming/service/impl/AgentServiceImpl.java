@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.repository.AgentRepository;
 import com.fr.adaming.service.IAgentService;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Service("agentService")
 public class AgentServiceImpl implements IAgentService {
 

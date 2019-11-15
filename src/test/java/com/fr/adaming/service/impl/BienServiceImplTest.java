@@ -20,23 +20,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.service.IBienService;
-
+/**
+ * @author VITTOZ Guillaume & JOURNET Aurelien
+ *
+ */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class BienServiceImplTest {
 
 	@Autowired
 	private IBienService service;
-
-	@Test
-	public void getAllBienWithAtLeastOne_shouldReturnListBiens() {
-
-	}
-
-	@Test
-	public void getAllBienWithNone_shouldReturnEmptyList() {
-
-	}
 
 	@Test
 	@Sql(statements = "truncate bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
@@ -60,8 +53,9 @@ public class BienServiceImplTest {
 
 	@Test
 	@Sql(statements = {"truncate bien", "INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void createExistingBien_shouldReturnException() {
-		Bien bien = new Bien(1L, 250000, false);
+	public void createExistingBien_shouldReturnNull() {
+		Bien bien = service.getBienById(1L);
+		assertNull(service.saveBien(bien));
 	}
 
 	@Test
@@ -77,11 +71,10 @@ public class BienServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
-			"INSERT INTO bien (id, prix, vendu) VALUES(2, 500000, true)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void updateUnknowBien_shouldReturnException() {
+	@Sql(statements = "truncate bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateUnknownBien_shouldReturnNull() {
 		Bien bien = new Bien(1L, 250000, false);
-		service.updateBien(bien);
+		assertNull(service.updateBien(bien));
 	}
 
 	@Test
@@ -94,7 +87,7 @@ public class BienServiceImplTest {
 	@Test
 	@Sql(statements = { "truncate bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(2, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void deleteUnknowBien_shouldReturnFalse() {
+	public void deleteUnknownBien_shouldReturnFalse() {
 		assertFalse(service.deleteBien(1L));
 	}
 
@@ -109,7 +102,7 @@ public class BienServiceImplTest {
 
 	@Test
 	@Sql(statements = "truncate bien")
-	public void getUnknowBienById_shouldReturnNull() {
+	public void getUnknownBienById_shouldReturnNull() {
 		assertNull(service.getBienById(2L));
 	}
 
@@ -125,7 +118,7 @@ public class BienServiceImplTest {
 	@Test
 	@Sql(statements = { "truncate bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void modifEtatVenteUnknowBien_shoudReturnException() {
+	public void modifEtatVenteUnknownBien_shoudReturnException() {
 		exceptionRule.expect(NoSuchElementException.class);
 		service.modifEtatVente(2L, true);
 	}

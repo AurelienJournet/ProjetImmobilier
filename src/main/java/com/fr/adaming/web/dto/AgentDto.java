@@ -7,7 +7,10 @@ import javax.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Getter
 @Setter
 @ToString
