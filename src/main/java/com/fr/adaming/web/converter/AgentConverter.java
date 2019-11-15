@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.web.dto.AgentDto;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 public class AgentConverter {
 
 	public static Agent convert(AgentDto dto) {

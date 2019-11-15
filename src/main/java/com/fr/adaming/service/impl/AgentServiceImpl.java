@@ -3,13 +3,15 @@ package com.fr.adaming.service.impl;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.repository.AgentRepository;
 import com.fr.adaming.service.IAgentService;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Service("agentService")
 public class AgentServiceImpl implements IAgentService {
 

@@ -5,7 +5,10 @@ import com.fr.adaming.entity.Client;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Getter @Setter @ToString
 public class BienDto {
 

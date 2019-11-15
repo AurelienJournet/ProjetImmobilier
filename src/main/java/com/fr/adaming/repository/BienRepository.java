@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fr.adaming.entity.Bien;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Repository
 public interface BienRepository extends JpaRepository<Bien, Long> {
 

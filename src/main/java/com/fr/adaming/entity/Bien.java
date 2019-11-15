@@ -12,6 +12,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 @Entity @Getter @Setter @NoArgsConstructor @ToString
 public class Bien {
 

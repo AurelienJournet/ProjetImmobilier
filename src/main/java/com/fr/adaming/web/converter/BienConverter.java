@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.web.dto.BienDto;
-
+/**
+ * @author VITTOZ Guillaume
+ *
+ */
 public class BienConverter {
 
 	public static Bien convert(BienDto dto) {
