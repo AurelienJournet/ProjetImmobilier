@@ -1,8 +1,11 @@
 package com.fr.adaming.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,10 @@ public class Agent extends User {
 	private String pwd;
 
 	private LocalDate dateRecrutement;
+	
+	@OneToMany
+	@Column(name = "id_agent")
+	private List<Client> client;
 
 	@Override
 	public String getEmail() {

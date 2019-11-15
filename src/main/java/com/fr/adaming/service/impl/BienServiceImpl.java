@@ -13,6 +13,7 @@ import com.fr.adaming.service.IBienService;
 @Service("bienService")
 public class BienServiceImpl implements IBienService {
 
+
 	@Autowired
 	private BienRepository dao;
 

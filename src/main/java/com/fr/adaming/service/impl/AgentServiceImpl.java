@@ -12,6 +12,7 @@ import com.fr.adaming.service.IAgentService;
 @Service("agentService")
 public class AgentServiceImpl implements IAgentService {
 
+
 	@Autowired
 	private AgentRepository dao;
 
