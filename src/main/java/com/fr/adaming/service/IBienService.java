@@ -18,7 +18,7 @@ public interface IBienService {
 	Collection<Bien> getAllBiens();
 	
 	/**
-	 * @param id
+	 * @param id of bien
 	 * @return Bien with this id
 	 */
 	Bien getBienById (Long id);
@@ -26,7 +26,7 @@ public interface IBienService {
 	
 	/**
 	 * Save an instance of Bien in the database
-	 * @param bien
+	 * @param Object bien
 	 * @return Bien saved in the database
 	 */
 	Bien saveBien(Bien bien);
@@ -34,7 +34,7 @@ public interface IBienService {
 	
 	/**
 	 * Update the bien in the database
-	 * @param bien
+	 * @param Object bien
 	 * @return Bien updated in the database
 	 */
 	Bien updateBien(Bien bien);
@@ -42,7 +42,7 @@ public interface IBienService {
 	
 	/**
 	 * Delete bien of the database
-	 * @param id
+	 * @param id of bien
 	 * @return True if bien is deleted, false if fail
 	 */
 	boolean deleteBien(Long id);
@@ -50,8 +50,8 @@ public interface IBienService {
 	
 	/**
 	 * Modify the state of the bien (vendu or not)
-	 * @param id
-	 * @param vendu
+	 * @param id of bien
+	 * @param vendu state of bien
 	 * @return Bien updated in the database
 	 */
 	Bien modifEtatVente(Long id, Boolean vendu);
