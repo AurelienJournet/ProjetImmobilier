@@ -32,7 +32,7 @@ public class BienServiceImplTest {
 	private IBienService service;
 
 	@Test
-	@Sql(statements = "truncate bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = "truncate table bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createValidBien_shouldReturnBienWithIdNotNull() {
 		Bien bien = new Bien(300000, true);
 		bien = service.saveBien(bien);
@@ -44,7 +44,7 @@ public class BienServiceImplTest {
 	public ExpectedException exceptionRule = ExpectedException.none();
 
 	@Test
-	@Sql(statements = "truncate bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = "truncate table bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createNotValidBien_shouldReturnException() {
 		exceptionRule.expect(DataIntegrityViolationException.class);
 		Bien bien = new Bien(null, null);
@@ -52,14 +52,14 @@ public class BienServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = {"truncate bien", "INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = {"truncate table bien", "INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createExistingBien_shouldReturnNull() {
 		Bien bien = service.getBienById(1L);
 		assertNull(service.saveBien(bien));
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
+	@Sql(statements = { "truncate table bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(3, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateValidBien_shouldReturnBienUpdated() {
 		Bien bien = service.getBienById(3L);
@@ -71,28 +71,28 @@ public class BienServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = "truncate bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = "truncate table bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateUnknownBien_shouldReturnNull() {
 		Bien bien = new Bien(1L, 250000, false);
 		assertNull(service.updateBien(bien));
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
+	@Sql(statements = { "truncate table bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteValidBien_shouldReturnTrue() {
 		assertTrue(service.deleteBien(1L));
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
+	@Sql(statements = { "truncate table bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(2, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteUnknownBien_shouldReturnFalse() {
 		assertFalse(service.deleteBien(1L));
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
+	@Sql(statements = { "truncate table bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(2, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getValidBienById_shouldReturnThisBien() {
 		Bien bien = service.getBienById(2L);
@@ -101,13 +101,13 @@ public class BienServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = "truncate bien")
+	@Sql(statements = "truncate table bien")
 	public void getUnknownBienById_shouldReturnNull() {
 		assertNull(service.getBienById(2L));
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
+	@Sql(statements = { "truncate table bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void modifEtatVenteValidBien_shouldReturnThisUpdatedBien() {
 		Bien bien = service.modifEtatVente(1L, true);
@@ -116,7 +116,7 @@ public class BienServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = { "truncate bien",
+	@Sql(statements = { "truncate table bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void modifEtatVenteUnknownBien_shoudReturnException() {
 		exceptionRule.expect(NoSuchElementException.class);

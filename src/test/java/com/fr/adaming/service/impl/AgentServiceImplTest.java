@@ -32,7 +32,7 @@ public class AgentServiceImplTest {
 	private IAgentService service;
 
 	@Test
-	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Sql(statements = "TABLE", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createValidAgent_shouldReturnAgentWithIdNotNull() {
 
 		Agent agent = new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
@@ -48,7 +48,7 @@ public class AgentServiceImplTest {
 	public ExpectedException exceptionRule = ExpectedException.none();
 
 	@Test
-	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = "delete from agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createNotValidAgent_shouldThrowException() {
 		exceptionRule.expect(DataIntegrityViolationException.class);
 		
@@ -59,23 +59,23 @@ public class AgentServiceImplTest {
 	}
 	
 	@Test
-	@Sql(statements = {"Truncate Agent","Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = {"delete from agent", "Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createExistingAgent_shouldReturnNull() {
 		Agent agent = service.getAgentById(1L);
 		assertNull(service.saveAgent(agent));
 	}
 
 	@Test
-	@Sql(statements = { "Truncate Agent",
-			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements ={"delete from agent",
+			"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createAgentWithAlreadyExistingEmail_shouldReturnNull() {
 		Agent agent = new Agent(1L,"agent@agent.fr","pwd", "NomClient", LocalDate.of(2019, 10, 15));
 		assertNull(service.saveAgent(agent));
 	}
 
 	@Test
-	@Sql(statements = { "Truncate Agent",
-	"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (404,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = {"delete from agent",
+	"Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (404,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateValidAgent_shouldReturnTrue() {
 		Agent agent=service.getAgentById(404L);
 		agent.setDateRecrutement(LocalDate.of(2018, 9, 13));
@@ -83,28 +83,28 @@ public class AgentServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = "delete from agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateUnknowAgent_shouldReturnFalse() {
 		Agent agent =new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
 		assertNull(service.updateAgent(agent));
 	}
 
 	@Test
-	@Sql(statements = { "Truncate Agent",
-			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = {"delete from agent",
+			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteValidAgent_shouldReturnTrue() {
 		assertTrue(service.deleteAgent(1L));
 	}
 
 	@Test
-	@Sql(statements = { "Truncate Agent",
-			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = {"delete from agent",
+			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteUnknowAgent_shouldReturnFalse() {
 		assertFalse(service.deleteAgent(404L));
 	}
 
 	@Test
-	@Sql(statements = { "Truncate Agent",
+	@Sql(statements = {"delete from agent",
 			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '201-12-25')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getValidAgentById_shouldReturnThisAgent() {
 		Agent agent = service.getAgentById(1L);
@@ -113,7 +113,7 @@ public class AgentServiceImplTest {
 	}
 
 	@Test
-	@Sql(statements = "Truncate Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(statements = "delete from agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getUnknowAgentById_shouldReturnNull() {
 		assertNull(service.getAgentById(1L));
 	}

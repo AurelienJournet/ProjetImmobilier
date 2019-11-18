@@ -33,7 +33,7 @@ public class ClientServiceImplTest {
 		private IClientService service;
 		
 		@Test
-		@Sql(statements = "Truncate Client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = "delete from client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void createValidClient_shouldReturnClientrWithIdNotNull() {
 			
 			Client client=new Client("client@client.fr","NomClient",TypeClient.ACHETEUR);	
@@ -45,7 +45,7 @@ public class ClientServiceImplTest {
 		}
 		
 		@Test
-		@Sql(statements = {"Truncate Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = {"delete from client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void createAlreadyExistingClient_shouldReturnNull() {
 		
 			assertNull(service.addClient(service.findClientById(1L)));		
@@ -55,7 +55,7 @@ public class ClientServiceImplTest {
 		public ExpectedException exceptionRule = ExpectedException.none();
 		
 		@Test
-		@Sql(statements = "Truncate Client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = "delete from client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void createNotValidClient_shouldReturnException(){
 			
 			exceptionRule.expect(DataIntegrityViolationException.class);
@@ -65,7 +65,7 @@ public class ClientServiceImplTest {
 		}
 		
 		@Test
-		@Sql(statements = {"Truncate Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = {"delete from client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void createClientWithAlreadyExistingEmail_shouldReturnException() {
 			exceptionRule.expect(DataIntegrityViolationException.class);
 			Client client=new Client("client@client.fr","NomClient",TypeClient.ACHETEUR);	
@@ -73,7 +73,7 @@ public class ClientServiceImplTest {
 		}
 		
 		@Test
-		@Sql(statements = {"Truncate Client","insert into Client (id,email,full_name,telephone,type) values (404,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = {"delete from client","insert into Client (id,email,full_name,telephone,type) values (404,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void updateValidClient_shouldReturnTrue() {
 			Client client=service.findClientById(404L);
 			client.setType(TypeClient.VENDEUR);
@@ -82,28 +82,28 @@ public class ClientServiceImplTest {
 		}
 		
 		@Test
-		@Sql(statements = "Truncate Client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = "delete from client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void updateUnknowClient_shouldReturnFalse() {
 			Client client=new Client(1L,"client@client.fr","NomClient",TypeClient.ACHETEUR);
 			assertFalse(service.updateClient(client));		
 		}
 		
 		@Test
-		@Sql(statements = {"Truncate Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = {"delete from client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void deleteValidClient_shouldReturnTrue() {
 
 			assertTrue(service.deleteClient(service.findClientById(1L)));
 		}
 		
 		@Test
-		@Sql(statements = {"Truncate Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = {"delete from client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void deleteUnknowClient_shouldReturnFalse() {
 			Client client=new Client("client2@client.fr","NomClient2",TypeClient.ACHETEUR);
 			assertFalse(service.deleteClient(client));
 		}
 
 		@Test
-		@Sql(statements = {"Truncate Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = {"delete from client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void getValidClientById_shouldReturnThisClient() {
 			Client client=service.findClientById(1L);
 			assertEquals(client.getEmail(),"client@client.fr");
@@ -111,7 +111,7 @@ public class ClientServiceImplTest {
 		}
 		
 		@Test
-		@Sql(statements = "Truncate Client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+		@Sql(statements = "delete from client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void getUnknowClientById_shouldReturnNull() {
 			assertNull(service.findClientById(1L));
 		}
