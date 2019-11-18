@@ -42,6 +42,8 @@ public class BienServiceImplTest {
 		bien = service.saveBien(bien);
 		assertEquals(bien.getPrix(), (Integer) 300000);
 		assertEquals(bien.getVendu(), true);
+		
+		logger.debug("TEST CREATE VALID BIEN (DEBUG)");
 	}
 
 	@Rule
@@ -53,6 +55,8 @@ public class BienServiceImplTest {
 		exceptionRule.expect(DataIntegrityViolationException.class);
 		Bien bien = new Bien(null, null);
 		service.saveBien(bien);
+		
+		logger.debug("TEST CREATE NOT VALID BIEN (DEBUG)");
 	}
 
 	@Test
@@ -60,6 +64,8 @@ public class BienServiceImplTest {
 	public void createExistingBien_shouldReturnNull() {
 		Bien bien = service.getBienById(1L);
 		assertNull(service.saveBien(bien));
+		
+		logger.debug("TEST CREATE EXISTNG BIEN (DEBUG)");
 	}
 
 	@Test
@@ -72,6 +78,8 @@ public class BienServiceImplTest {
 		Bien bienUpdated = service.updateBien(bien);
 		assertEquals(bienUpdated.getPrix(), (Integer) 2850000);
 		assertEquals(bienUpdated.getVendu(), true);
+		
+		logger.debug("TEST UPDATE VALID BIEN (DEBUG)");
 	}
 
 	@Test
@@ -79,6 +87,8 @@ public class BienServiceImplTest {
 	public void updateUnknownBien_shouldReturnNull() {
 		Bien bien = new Bien(1L, 250000, false);
 		assertNull(service.updateBien(bien));
+		
+		logger.debug("TEST UPDATE UNKNOWN BIEN (DEBUG)");
 	}
 
 	@Test
@@ -86,6 +96,8 @@ public class BienServiceImplTest {
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteValidBien_shouldReturnTrue() {
 		assertTrue(service.deleteBien(1L));
+		
+		logger.debug("TEST DELETE VALID BIEN (DEBUG)");
 	}
 
 	@Test
@@ -93,6 +105,8 @@ public class BienServiceImplTest {
 			"INSERT INTO bien (id, prix, vendu) VALUES(2, 200000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteUnknownBien_shouldReturnFalse() {
 		assertFalse(service.deleteBien(1L));
+		
+		logger.debug("TEST DELETE UNKNOWN BIEN (DEBUG)");
 	}
 
 	@Test
@@ -102,12 +116,16 @@ public class BienServiceImplTest {
 		Bien bien = service.getBienById(2L);
 		assertEquals(bien.getPrix(), (Integer) 200000);
 		assertEquals(bien.getVendu(), false);
+		
+		logger.debug("TEST GET LIST OF VALID BIEN (DEBUG)");
 	}
 
 	@Test
 	@Sql(statements = "Delete From bien")
 	public void getUnknownBienById_shouldReturnNull() {
 		assertNull(service.getBienById(2L));
+		
+		logger.debug("TEST GET LIST BUT EMPTY (DEBUG)");
 	}
 
 	@Test
@@ -117,6 +135,8 @@ public class BienServiceImplTest {
 		Bien bien = service.modifEtatVente(1L, true);
 		assertEquals(bien.getVendu(), true);
 		assertEquals(bien.getPrix(), (Integer) 250000);
+		
+		logger.debug("TEST MODIFY STATE OF VALID BIEN (DEBUG)");
 	}
 
 	@Test
@@ -125,6 +145,8 @@ public class BienServiceImplTest {
 	public void modifEtatVenteUnknownBien_shoudReturnException() {
 		exceptionRule.expect(NoSuchElementException.class);
 		service.modifEtatVente(2L, true);
+		
+		logger.debug("TEST MODIFY STATE OF UNKNOWN BIEN (DEBUG)");
 	}
 
 }
