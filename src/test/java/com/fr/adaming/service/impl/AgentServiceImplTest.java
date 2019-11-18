@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.service.IAgentService;
+
 /**
  * @author VITTOZ Guillaume & JOURNET Aurelien
  *
@@ -36,13 +37,16 @@ public class AgentServiceImplTest {
 	@Sql(statements = "Delete From Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createValidAgent_shouldReturnAgentWithIdNotNull() {
 
+
+		
 		Agent agent = new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
+
 		agent = service.saveAgent(agent);
 		assertTrue(agent.getId() != null);
 		assertEquals(agent.getEmail(), "agent@agent.fr");
 		assertEquals(agent.getFullName(), "NomAgent");
-		assertEquals(agent.getPwd(),"pwd");
-		assertEquals(agent.getDateRecrutement(),LocalDate.of(2019, 10, 15));
+		assertEquals(agent.getPwd(), "pwd");
+		assertEquals(agent.getDateRecrutement(), LocalDate.of(2019, 10, 15));
 	}
 
 	@Rule
@@ -58,7 +62,7 @@ public class AgentServiceImplTest {
 		agent.setId(1L);
 		service.saveAgent(agent);
 	}
-	
+
 	@Test
 	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone,date_recrutement) values (1,'agent@agent.fr','pwd','nomAgent',0101010101,'2019-10-14')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void createExistingAgent_shouldReturnNull() {
@@ -105,6 +109,7 @@ public class AgentServiceImplTest {
 	}
 
 	@Test
+
 	@Sql(statements = { "Delete From Agent",
 			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '201-12-25')"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getValidAgentById_shouldReturnThisAgent() {

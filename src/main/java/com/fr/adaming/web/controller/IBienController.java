@@ -30,7 +30,6 @@ public interface IBienController {
 //	@GetMapping(path = "/getByPrix")
 //	Bien findByPrix(int prix);
 
-
 	@PostMapping(path = "/save", consumes = "application/json")
 	Bien saveBien(@RequestBody BienDto biendto);
 
