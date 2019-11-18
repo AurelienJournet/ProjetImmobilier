@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 
+import org.apache.log4j.Logger;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -31,6 +32,8 @@ public class AgentServiceImplTest {
 
 	@Autowired
 	private IAgentService service;
+	
+	private static final Logger logger = Logger.getLogger("com.fr.adaming.service.impl.AgentServiceTestImpl");
 
 	@Test
 	@Sql(statements = "Delete From Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
@@ -46,6 +49,9 @@ public class AgentServiceImplTest {
 		assertEquals(agent.getFullName(), "NomAgent");
 		assertEquals(agent.getPwd(), "pwd");
 		assertEquals(agent.getDateRecrutement(), LocalDate.of(2019, 10, 15));
+		
+		
+		logger.debug("TEST CREATE VALID AGENT (DEBUG)");
 	}
 
 	@Rule
