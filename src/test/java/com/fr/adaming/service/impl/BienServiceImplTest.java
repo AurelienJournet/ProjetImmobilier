@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.NoSuchElementException;
 
+import org.apache.log4j.Logger;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -31,6 +32,8 @@ public class BienServiceImplTest {
 
 	@Autowired
 	private IBienService service;
+	
+	private static final Logger logger = Logger.getLogger("com.fr.adaming.service.impl.BienServiceTestImpl");
 
 	@Test
 	@Sql(statements = "Delete From Bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
