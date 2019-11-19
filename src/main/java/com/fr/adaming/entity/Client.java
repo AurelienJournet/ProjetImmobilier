@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 
 import com.fr.adaming.enumeration.TypeClient;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -2,7 +2,9 @@ package com.fr.adaming.web.dto;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
@@ -18,16 +20,18 @@ import lombok.ToString;
 public class AgentDto {
 
 	private Long id;
-	@NotNull
-	private String email;
 
+	@Email
+	private String email;
+	@NotBlank
 	private String fullName;
 	@Pattern(regexp = "0[1-9][0-9]{8}")
 	private int telephone;
 
-	@Pattern(regexp = "^[A-Z]{8,16}$")
+	@Pattern(regexp = "^[A-Z][0-9]{8,16}$")
 	private String pwd;
 
+	@PastOrPresent
 	private LocalDate dateRecrutement;
 
 	public AgentDto(Long id, String email, String fullName, int telephone, String pwd, LocalDate dateRecrutement) {

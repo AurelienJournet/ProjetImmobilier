@@ -38,7 +38,7 @@ public class AgentControllerImpl implements IAgentController {
 	}
 
 	@Override
-	public Agent updateAgent(AgentDto agentDto) {
+	public Agent updateAgent(@Valid AgentDto agentDto) {
 		return service.updateAgent(AgentConverter.convert(agentDto));
 	}
 

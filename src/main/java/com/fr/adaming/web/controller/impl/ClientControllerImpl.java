@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.entity.Client;
@@ -14,7 +13,6 @@ import com.fr.adaming.service.IClientService;
 import com.fr.adaming.web.controller.IClientController;
 import com.fr.adaming.web.converter.ClientConverter;
 import com.fr.adaming.web.dto.ClientDto;
-import com.fr.adaming.web.dto.RegisterDto;
 
 @RestController
 public class ClientControllerImpl implements IClientController {

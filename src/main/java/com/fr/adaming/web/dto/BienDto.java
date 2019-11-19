@@ -1,5 +1,7 @@
 package com.fr.adaming.web.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import com.fr.adaming.entity.Client;
 
 import lombok.Getter;
@@ -13,9 +15,9 @@ import lombok.ToString;
 public class BienDto {
 
 	private Long id;
-	
+	@NotBlank
 	private Integer prix;
-	
+	@NotBlank
 	private Boolean vendu;
 	
 	private Client client;
