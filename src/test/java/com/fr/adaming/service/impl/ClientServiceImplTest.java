@@ -54,7 +54,7 @@ public class ClientServiceImplTest {
 		
 		@Test
 		@Sql(statements = "Delete From Client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-		public void createNotValidClient_shouldReturnException(){
+		public void createNotValidClient_shouldThrowException(){
 			
 			exceptionRule.expect(DataIntegrityViolationException.class);
 			Client client=new Client();
@@ -64,7 +64,7 @@ public class ClientServiceImplTest {
 		
 		@Test
 		@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-		public void createClientWithAlreadyExistingEmail_shouldReturnException() {
+		public void createClientWithAlreadyExistingEmail_shouldThrowException() {
 			exceptionRule.expect(DataIntegrityViolationException.class);
 			Client client=new Client("client@client.fr","NomClient",TypeClient.ACHETEUR);	
 			service.addClient(client);	
