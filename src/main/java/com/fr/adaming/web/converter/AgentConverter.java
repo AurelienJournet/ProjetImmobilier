@@ -13,7 +13,6 @@ public class AgentConverter {
 
 	public static Agent convert(AgentDto dto) {
 		Agent agent = new Agent();
-		agent.setId(dto.getId());
 		agent.setEmail(dto.getEmail());
 		agent.setFullName(dto.getFullName());
 		agent.setDateRecrutement(dto.getDateRecrutement());
@@ -23,8 +22,14 @@ public class AgentConverter {
 	}
 
 	public static AgentDto convert(Agent agent) {
+//		if(agent== null) {
+//			return null;
+//		}
 		AgentDto dto = new AgentDto();
-		dto.setId(agent.getId());
+		
+		if(agent.getId() != null) {
+			dto.setId(agent.getId());
+		}		
 		dto.setEmail(agent.getEmail());
 		dto.setFullName(agent.getFullName());
 		dto.setDateRecrutement(agent.getDateRecrutement());
