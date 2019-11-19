@@ -13,12 +13,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProjetImmobilierApplicationTests {
 
 	@Autowired
-	private MockMvc mvc;
-	public ObjectMapper mapper = new ObjectMapper();
+	protected MockMvc mvc;
+	protected ObjectMapper mapper = new ObjectMapper();
 	
 	@Test
 	void contextLoads() {
 		
+	}
+	
+	public static String asJsonString(final Object obj) {
+	    try {
+	        return new ObjectMapper().writeValueAsString(obj);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
 	}
 
 }

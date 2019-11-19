@@ -66,6 +66,8 @@ public class AgentServiceImplTest {
 		agent.setEmail(null);
 		agent.setId(1L);
 		service.saveAgent(agent);
+		
+		logger.debug("TEST CREATE NOT VALID AGENT (DEBUG)");
 	}
 
 	@Test
@@ -73,6 +75,8 @@ public class AgentServiceImplTest {
 	public void createExistingAgent_shouldReturnNull() {
 		Agent agent = service.getAgentById(1L);
 		assertNull(service.saveAgent(agent));
+		
+		logger.debug("TEST CREATE EXISTING AGENT (DEBUG)");
 	}
 
 	@Test
@@ -82,6 +86,7 @@ public class AgentServiceImplTest {
 		exceptionRule.expect(DataIntegrityViolationException.class);
 		Agent agent = new Agent(5L,"agent@agent.fr","pwd", "NomClient", LocalDate.of(2019, 10, 15));
 		assertNull(service.saveAgent(agent));
+		logger.debug("TEST CREATE AGENT EXISTING EMAIL (DEBUG)");
 	}
 
 	@Test
@@ -91,6 +96,7 @@ public class AgentServiceImplTest {
 		Agent agent=service.getAgentById(404L);
 		agent.setDateRecrutement(LocalDate.of(2018, 9, 13));
 		assertEquals(service.updateAgent(agent).getDateRecrutement(),LocalDate.of(2018, 9, 13));
+		logger.debug("TEST UPDATE VALID AGENT(DEBUG)");
 	}
 
 	@Test
@@ -98,6 +104,7 @@ public class AgentServiceImplTest {
 	public void updateUnknowAgent_shouldReturnFalse() {
 		Agent agent =new Agent(1L,"agent@agent.fr","pwd","NomAgent",LocalDate.of(2019, 10, 15));
 		assertNull(service.updateAgent(agent));
+		logger.debug("TEST UPDATE UNKNOWN AGENT(DEBUG)");
 	}
 
 	@Test
@@ -105,6 +112,7 @@ public class AgentServiceImplTest {
 			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteValidAgent_shouldReturnTrue() {
 		assertTrue(service.deleteAgent(1L));
+		logger.debug("TEST DELETE VALID AGENT(DEBUG)");
 	}
 
 	@Test
@@ -112,6 +120,7 @@ public class AgentServiceImplTest {
 			"Insert into Agent (id,email,full_name,telephone,pwd,date_Recrutement) values (1,'agent@agent.fr','nomAgent',0101010101,'pwd', '5-12-25')" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void deleteUnknowAgent_shouldReturnFalse() {
 		assertFalse(service.deleteAgent(404L));
+		logger.debug("TEST DELETE UNKNOWN AGENT(DEBUG)");
 	}
 
 	@Test
@@ -122,11 +131,13 @@ public class AgentServiceImplTest {
 		Agent agent = service.getAgentById(1L);
 		assertEquals(agent.getEmail(), "agent@agent.fr");
 		assertEquals(agent.getFullName(), "nomAgent");
+		logger.debug("TEST GET VALID AGENT BY ID (DEBUG)");
 	}
 
 	@Test
 	@Sql(statements = "Delete From Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getUnknowAgentById_shouldReturnNull() {
 		assertNull(service.getAgentById(1L));
+		logger.debug("TEST GET UNKNWON AGENT BY ID (DEBUG)");
 	}
 }

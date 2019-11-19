@@ -32,5 +32,5 @@ public abstract class User {
 	@Column(nullable = false)
 	private String fullName;
 
-	private int telephone;
+	private String telephone;
 }

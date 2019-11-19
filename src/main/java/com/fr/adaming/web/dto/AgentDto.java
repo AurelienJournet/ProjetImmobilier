@@ -26,7 +26,7 @@ public class AgentDto {
 	@NotBlank
 	private String fullName;
 	@Pattern(regexp = "0[1-9][0-9]{8}")
-	private int telephone;
+	private String telephone;
 
 	@Pattern(regexp = "^[A-Z][0-9]{8,16}$")
 	private String pwd;
@@ -34,7 +34,7 @@ public class AgentDto {
 	@PastOrPresent
 	private LocalDate dateRecrutement;
 
-	public AgentDto(Long id, String email, String fullName, int telephone, String pwd, LocalDate dateRecrutement) {
+	public AgentDto(Long id, String email, String fullName, String telephone, String pwd, LocalDate dateRecrutement) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -48,7 +48,7 @@ public class AgentDto {
 		super();
 	}
 
-	public AgentDto(String email, String fullName, int telephone, String pwd, LocalDate dateRecrutement) {
+	public AgentDto(String email, String fullName, String telephone, String pwd, LocalDate dateRecrutement) {
 		super();
 		this.email = email;
 		this.fullName = fullName;

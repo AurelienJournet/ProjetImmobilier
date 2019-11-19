@@ -22,12 +22,12 @@ public class ClientDto {
 	@NotBlank
 	private String fullName;
 	
-	@Pattern(regexp = "0[1-9][0-9]{8}")
-	private int telephone;
+	@Pattern(regexp = "(0|\\+33|0033)[1-9][0-9]{8}")
+	private String telephone;
 	
 	private TypeClient type;
 	
-	public ClientDto(@NotNull String email, String fullName,@Pattern(regexp = "0[1-9][0-9]{8}") int telephone, TypeClient type) {
+	public ClientDto(@NotNull String email, String fullName,String telephone, TypeClient type) {
 		super();
 		this.email = email;
 		this.fullName = fullName;
