@@ -1,6 +1,6 @@
 package com.fr.adaming.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.fr.adaming.entity.Bien;
 
@@ -15,7 +15,7 @@ public interface IBienService {
 	 * Method to print all bien
 	 * @return All bien in the database
 	 */
-	Collection<Bien> getAllBiens();
+	List<Bien> getAllBiens();
 	
 	/**
 	 * @param id of bien

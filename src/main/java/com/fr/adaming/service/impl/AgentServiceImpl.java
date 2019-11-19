@@ -1,6 +1,6 @@
 package com.fr.adaming.service.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class AgentServiceImpl implements IAgentService {
 	private AgentRepository dao;
 
 	@Override
-	public Collection<Agent> getAllAgents() {
+	public List<Agent> getAllAgents() {
 		return dao.findAll();
 	}
 

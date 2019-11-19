@@ -1,6 +1,6 @@
 package com.fr.adaming.web.controller;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.entity.Agent;
 import com.fr.adaming.web.dto.AgentDto;
 /**
  * @author VITTOZ Guillaume
@@ -20,16 +19,16 @@ import com.fr.adaming.web.dto.AgentDto;
 public interface IAgentController {
 
 	@GetMapping(path = "/getAll")
-	Collection<Agent> getAllAgents();
+	List<AgentDto> getAllAgents();
 
 	@GetMapping(path = "/getById")
-	Agent getAgentById(Long id);
+	AgentDto getAgentById(Long id);
 
 	@PostMapping(path = "/save", consumes = "application/json")
-	Agent saveAgent(@RequestBody AgentDto agentDto);
+	AgentDto saveAgent(@RequestBody AgentDto agentDto);
 
 	@PutMapping(path = "/update")
-	Agent updateAgent(AgentDto agentDto);
+	AgentDto updateAgent(AgentDto agentDto);
 
 	@GetMapping(path = "/{id}/delete")
 	boolean deleteAgent(Long id);

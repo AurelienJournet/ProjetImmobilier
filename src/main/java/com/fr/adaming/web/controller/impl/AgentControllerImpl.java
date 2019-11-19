@@ -1,13 +1,12 @@
 package com.fr.adaming.web.controller.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.fr.adaming.entity.Agent;
 import com.fr.adaming.service.IAgentService;
 import com.fr.adaming.web.controller.IAgentController;
 import com.fr.adaming.web.converter.AgentConverter;
@@ -23,23 +22,23 @@ public class AgentControllerImpl implements IAgentController {
 	private IAgentService service;
 
 	@Override
-	public Collection<Agent> getAllAgents() {
-		return service.getAllAgents();
+	public List<AgentDto> getAllAgents() {
+		return AgentConverter.convert(service.getAllAgents());
 	}
 
 	@Override
-	public Agent getAgentById(Long id) {
-		return service.getAgentById(id);
+	public AgentDto getAgentById(Long id) {
+		return AgentConverter.convert(service.getAgentById(id));
 	}
 
 	@Override
-	public Agent saveAgent(@Valid AgentDto agentDto) {
-		return service.saveAgent(AgentConverter.convert(agentDto));
+	public AgentDto saveAgent(@Valid AgentDto agentDto) {
+		return AgentConverter.convert(service.saveAgent(AgentConverter.convert(agentDto)));
 	}
 
 	@Override
-	public Agent updateAgent(@Valid AgentDto agentDto) {
-		return service.updateAgent(AgentConverter.convert(agentDto));
+	public AgentDto updateAgent(@Valid AgentDto agentDto) {
+		return AgentConverter.convert(service.updateAgent(AgentConverter.convert(agentDto)));
 	}
 
 	@Override
