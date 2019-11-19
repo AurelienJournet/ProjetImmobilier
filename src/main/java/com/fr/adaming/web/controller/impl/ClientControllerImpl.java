@@ -24,24 +24,25 @@ public class ClientControllerImpl implements IClientController {
 		@Qualifier("clientService")
 		private IClientService service;
 		
-		public Client addClient(@Valid ClientDto dto) {
-			return service.addClient(ClientConverter.DtoClientToClient(dto));
+		public ClientDto addClient(@Valid ClientDto dto) {
+			return ClientConverter.clientToDtoClient(service.addClient(ClientConverter.dtoClientToClient(dto)));
 		}
 
-		public List<Client> findAllClients() {
-			return service.findAllClients();
+		public List<ClientDto> findAllClients() {
+			return ClientConverter.convertToDtoClientList(service.findAllClients());
 		}
 
-		public Client findClientById(Long id) {
-			return service.findClientById(id);
+		public ClientDto findClientById(String id) {
+			
+			return ClientConverter.clientToDtoClient(service.findClientById(Long.valueOf(id)));
 		}
 
 		public boolean updateClient(@Valid ClientDto dto) {
-			return service.updateClient(ClientConverter.DtoClientToClient(dto));
+			return service.updateClient(ClientConverter.dtoClientToClient(dto));
 		}
 
 		public boolean deleteClient(@Valid ClientDto dto) {
-			return service.deleteClient(ClientConverter.DtoClientToClient(dto));
+			return service.deleteClient(ClientConverter.dtoClientToClient(dto));
 		}
 }
 

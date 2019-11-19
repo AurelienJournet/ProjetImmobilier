@@ -33,7 +33,7 @@ public class ClientServiceImpl implements IClientService {
 	
 
 	public Client findClientById(Long id) {
-		
+
 		if(!dao.findById(id).isEmpty())
 			return dao.findById(id).get();
 		else
@@ -67,5 +67,6 @@ public class ClientServiceImpl implements IClientService {
 	public List<Client> findAllClients() {
 		return dao.findAll();
 	}
+
 	
 }
