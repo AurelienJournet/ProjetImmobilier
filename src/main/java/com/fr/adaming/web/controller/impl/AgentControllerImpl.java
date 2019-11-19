@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.service.IAgentService;
 import com.fr.adaming.web.controller.IAgentController;
@@ -15,6 +16,7 @@ import com.fr.adaming.web.dto.AgentDto;
  * @author VITTOZ Guillaume
  *
  */
+@RestController
 public class AgentControllerImpl implements IAgentController {
 
 	@Autowired

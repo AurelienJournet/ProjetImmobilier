@@ -3,6 +3,7 @@ package com.fr.adaming.web.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +22,14 @@ public interface IBienController {
 	@GetMapping(path = "/getAll")
 	List<BienDto> getAllBiens();
 
-	@GetMapping(path = "/getById")
-	BienDto getBienById(Long id);
-
-//	@GetMapping(path = "/getByPrix")
-//	Bien findByPrix(int prix);
+	@GetMapping(path = "/{id}/getById")
+	BienDto getBienById(@PathVariable Long id);
 
 	@PostMapping(path = "/save", consumes = "application/json")
 	BienDto saveBien(@RequestBody BienDto biendto);
 
 	@PutMapping(path = "/update")
-	BienDto updateBien(BienDto biendto);
+	BienDto updateBien(@RequestBody BienDto biendto);
 
 	@GetMapping(path = "/{id}/delete")
 	boolean deleteBien(Long id);

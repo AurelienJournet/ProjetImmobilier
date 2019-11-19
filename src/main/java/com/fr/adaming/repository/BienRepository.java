@@ -14,7 +14,7 @@ import com.fr.adaming.entity.Bien;
 @Repository
 public interface BienRepository extends JpaRepository<Bien, Long> {
 
-	boolean existsById(Long id);
+//	boolean existsById(Long id);
 	
 //	boolean existByVendu(boolean vendu);
 	
