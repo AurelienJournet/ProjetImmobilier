@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -109,10 +110,11 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 	@Test
 	@Sql(statements = "Delete From Agent", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getAllAgents_shouldReturnEmptyListOfAgents() throws UnsupportedEncodingException, Exception {
-		String result = mvc.perform(get("/api/agent/getAll").contentType(MediaType.APPLICATION_JSON))
+		String bodyAsJson = mvc.perform(get("/api/agent/getAll").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-		System.out.println("DEBUG DE LA METHODE GETALL : " + result);
+		List<AgentDto> response = mapper.readValue(bodyAsJson, new TypeReference<List<AgentDto>>() {});
+		assertTrue(response.isEmpty());
 	}
 	
 
@@ -134,9 +136,9 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 	
 	@Test
 	public void foundById_AgentNotFound_ShouldReturnNull() throws Exception {
-		exceptionRule.expect(NestedServletException.class);
 		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/201/getById").contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
-		System.out.println("DEBUG response : "+ bodyAsJson);
+		
+		assertEquals(bodyAsJson, "");
 	}
 	
 	@Test
@@ -176,19 +178,19 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 	@Test
 	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateValidAgent_ShouldReturnAgentUpdated() throws Exception {
-		AgentDto agent=new AgentDto(1L, "agentMODIF@agent.fr", "NomAgentMODIF", "0632100132","pwdEntre8et16",
+		AgentDto agent=new AgentDto(5L, "agentMODIF@agent.fr", "NomAgentMODIF", "0632100132","pwdEntre8et16",
 				null);
 		
-		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.put("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 	
 		AgentDto response = mapper.readValue(bodyAsJson, AgentDto.class);
 		
 		assertNotNull(response);
-		assertEquals(1L, response.getId());
+		assertEquals(5L, response.getId());
 		assertEquals("agentMODIF@agent.fr", response.getEmail());
-		assertEquals("nomAgentMODIF", response.getFullName());
+		assertEquals("NomAgentMODIF", response.getFullName());
 		assertEquals("0632100132", response.getTelephone());
-		assertEquals("pwdTailleOk", response.getPwd());
+		assertEquals("pwdEntre8et16", response.getPwd());
 	}
 	
 	@Test
@@ -197,7 +199,7 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 		AgentDto agent=new AgentDto(1950L, "agent@agent.fr", "NomAgent", "0632100132","pwdEntre8et16",
 				null);
 		
-		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.put("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andReturn().getResponse().getContentAsString();
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andReturn().getResponse().getContentAsString();
 		
 		assertTrue(bodyAsJson.isEmpty());
 	}
@@ -208,7 +210,7 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 		AgentDto agent=new AgentDto(5L, null, "NomAgent", "0632100132","pwdEntre8et16",
 				null);
 		
-		mvc.perform(MockMvcRequestBuilders.put("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
 	}
 	
 	@Test
@@ -217,12 +219,13 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 		AgentDto agent=new AgentDto(5L, "agentsansarobasagent.fr", "NomAgent", "0632100132","pwdEntre8et16",
 				null);
 		
-		mvc.perform(MockMvcRequestBuilders.put("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().is4xxClientError());
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().is4xxClientError());
 	}
 	
 	@Test
 	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')", "Insert into Agent (id,email,pwd,full_name,telephone) values (4,'agent4@agent.fr','pwdTailleOk','nomAgent2','0632100131')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateValidAgentWithExistingEmail_ShouldReturn4xxStatus() throws Exception {
+		exceptionRule.expect(NestedServletException.class);
 		AgentDto agent=new AgentDto(5L, "agent4@agent.fr", "NomAgent", "0632100132","pwdEntre8et16",
 				null);
 		

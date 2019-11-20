@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fr.adaming.entity.Agent;
 import com.fr.adaming.web.dto.AgentDto;
+
 /**
  * @author VITTOZ Guillaume
  *
@@ -12,9 +13,11 @@ import com.fr.adaming.web.dto.AgentDto;
 public class AgentConverter {
 
 	public static Agent convert(AgentDto dto) {
+
 		if(dto== null) {
 			return null;
-		}
+		}else {
+
 		Agent agent = new Agent();
 		agent.setId(dto.getId());
 		agent.setEmail(dto.getEmail());
@@ -23,7 +26,8 @@ public class AgentConverter {
 		agent.setPwd(dto.getPwd());
 		agent.setTelephone(dto.getTelephone());
 		return agent;
-	}
+		}	}
+
 
 	public static AgentDto convert(Agent agent) {
 		if(agent== null) {
@@ -41,8 +45,9 @@ public class AgentConverter {
 		dto.setPwd(agent.getPwd());
 		dto.setTelephone(agent.getTelephone());
 		return dto;
-	}
 
+	}
+	
 	public static List<Agent> convertt(List<AgentDto> dtos) {
 		List<Agent> listAgents = new ArrayList<>();
 		for (AgentDto dto : dtos) {

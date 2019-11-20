@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fr.adaming.entity.Bien;
 import com.fr.adaming.web.dto.BienDto;
+
 /**
  * @author VITTOZ Guillaume
  *
@@ -12,27 +13,35 @@ import com.fr.adaming.web.dto.BienDto;
 public class BienConverter {
 
 	public static Bien convert(BienDto dto) {
-		Bien bien = new Bien();
-		bien.setId(dto.getId());
-		bien.setPrix(dto.getPrix());
-		bien.setVendu(dto.getVendu());
-		bien.setClient(dto.getClient());
-		
-		return bien;
+		if (dto == null)
+			return null;
+		else {
+			Bien bien = new Bien();
+			bien.setId(dto.getId());
+			bien.setPrix(dto.getPrix());
+			bien.setVendu(dto.getVendu());
+			bien.setClient(dto.getClient());
+
+			return bien;
+		}
 	}
-	
-	public static BienDto convert (Bien bien) {
-		BienDto dto = new BienDto();
-		dto.setId(bien.getId());
-		dto.setPrix(bien.getPrix());
-		dto.setVendu(bien.getVendu());
-		dto.setClient(bien.getClient());
-		return dto;
+
+	public static BienDto convert(Bien bien) {
+		if (bien == null)
+			return null;
+		else {
+			BienDto dto = new BienDto();
+			dto.setId(bien.getId());
+			dto.setPrix(bien.getPrix());
+			dto.setVendu(bien.getVendu());
+			dto.setClient(bien.getClient());
+			return dto;
+		}
 	}
 
 	public static List<Bien> convertt(List<BienDto> dtos) {
 		List<Bien> listBiens = new ArrayList<>();
-		for(BienDto dto : dtos) {
+		for (BienDto dto : dtos) {
 			listBiens.add(BienConverter.convert(dto));
 		}
 		return listBiens;
@@ -40,7 +49,7 @@ public class BienConverter {
 
 	public static List<BienDto> convert(List<Bien> biens) {
 		List<BienDto> listDtos = new ArrayList<>();
-		for(Bien bien : biens) {
+		for (Bien bien : biens) {
 			listDtos.add(BienConverter.convert(bien));
 		}
 		return listDtos;
