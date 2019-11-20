@@ -23,6 +23,8 @@ import org.springframework.web.util.NestedServletException;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fr.adaming.ProjetImmobilierApplicationTests;
+import com.fr.adaming.web.dto.AgentDto;
+import com.fr.adaming.web.dto.BienDto;
 import com.fr.adaming.web.dto.BienDto;
 import com.fr.adaming.web.dto.ClientDto;
 
@@ -32,6 +34,50 @@ public class BienControllerImplTest extends ProjetImmobilierApplicationTests{
  
 	@Rule
 	public ExpectedException exceptionRule = ExpectedException.none();
+	
+	@Test
+	@Sql(statements = "Delete From Bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void addValidBien_shouldReturnSUCCESSFULL() throws Exception {
+
+		BienDto bien = new BienDto((Integer) 250000, true, null);
+
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.post("/api/bien/save").contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(bien))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		BienDto response = mapper.readValue(bodyAsJson, BienDto.class);
+		
+		assertNotNull(response);
+		assertEquals((Integer) 250000, response.getPrix());
+		assertEquals(true, response.getVendu());
+		assertEquals(null, response.getClient());
+	}
+	
+	@Test
+	@Sql(statements = "Delete From Bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void addBienWithNegativePrix_shouldReturnStatus400() throws Exception {
+		
+		BienDto bien=new BienDto(-10, true, null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/bien/add").contentType(MediaType.APPLICATION_JSON).content(asJsonString(bien))).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = "Delete From Bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void addBienWithNullPrix_shouldReturnStatus400() throws Exception {
+		
+		BienDto bien=new BienDto(null, true, null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/bien/add").contentType(MediaType.APPLICATION_JSON).content(asJsonString(bien))).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = "Delete From Bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void addBienWithNullVendu_shouldReturnStatus400() throws Exception {
+		
+		BienDto bien=new BienDto(210000, null, null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/bien/add").contentType(MediaType.APPLICATION_JSON).content(asJsonString(bien))).andExpect(status().is4xxClientError());
+	}
 	
 	@Test
 	@Sql(statements = {"Delete From Bien","Insert into Bien (id, prix, vendu) VALUES(111, 250000, false)"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)

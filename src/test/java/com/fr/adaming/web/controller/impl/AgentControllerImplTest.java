@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
@@ -113,11 +114,12 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 
 		System.out.println("DEBUG DE LA METHODE GETALL : " + result);
 	}
+	
 
 	@Test
 	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (185,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getValidAgentById_shouldReturnStatus200() throws Exception {		
-		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/185/getById").contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();;
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/185/getById").contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
 	
 		AgentDto response = mapper.readValue(bodyAsJson, AgentDto.class);
 		
@@ -152,5 +154,131 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 	}
 
 	
-
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void deleteValidAgent_ShouldReturnFalse() throws Exception {
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/5/delete")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andReturn().getResponse().getContentAsString();
+		
+		assertEquals("true", bodyAsJson);
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void deleteUnknownAgent_ShouldReturnFalse() throws Exception {
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/2/delete")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andReturn().getResponse().getContentAsString();
+		
+		assertEquals("false", bodyAsJson);
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgent_ShouldReturnAgentUpdated() throws Exception {
+		
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateUnknownAgent_ShouldReturnNull() throws Exception {
+		AgentDto agent=new AgentDto(1950L, "agent@agent.fr", "NomAgent", "0632100132","pwdEntre8et16",
+				null);
+		
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andReturn().getResponse().getContentAsString();
+		
+		assertTrue(bodyAsJson.isEmpty());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithNullEmail_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, null, "NomAgent", "0632100132","pwdEntre8et16",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithNotValidEmail_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agentsansarobasagent.fr", "NomAgent", "0632100132","pwdEntre8et16",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')", "Insert into Agent (id,email,pwd,full_name,telephone) values (4,'agent4@agent.fr','pwdTailleOk','nomAgent2','0632100131')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithExistingEmail_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent4@agent.fr", "NomAgent", "0632100132","pwdEntre8et16",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithBlankfullName_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"   ", "0632100132","pwdEntre8et16",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithStringTelephone_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"nomAgent", "ABCDEFGHIJ","pwdEntre8et16",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithWrongSizeTelephone_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"nomAgent", "012","pwdEntre8et16",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithSmallPwd_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"nomAgent", "012","court",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithLongPwd_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"nomAgent", "012","BeaucoupTropLongOuPresque",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithBlankPwd_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"nomAgent", "012","          ",
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void updateValidAgentWithNullPwd_ShouldReturn4xxStatus() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agent@agent.fr" ,"nomAgent", "012",null,
+				null);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andDo(print()).andExpect(status().is4xxClientError());
+	}
+	
 }
