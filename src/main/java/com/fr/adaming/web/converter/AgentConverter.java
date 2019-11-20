@@ -12,7 +12,11 @@ import com.fr.adaming.web.dto.AgentDto;
 public class AgentConverter {
 
 	public static Agent convert(AgentDto dto) {
+		if(dto== null) {
+			return null;
+		}
 		Agent agent = new Agent();
+		agent.setId(dto.getId());
 		agent.setEmail(dto.getEmail());
 		agent.setFullName(dto.getFullName());
 		agent.setDateRecrutement(dto.getDateRecrutement());
@@ -22,14 +26,15 @@ public class AgentConverter {
 	}
 
 	public static AgentDto convert(Agent agent) {
-//		if(agent== null) {
-//			return null;
-//		}
+		if(agent== null) {
+			return null;
+		}
 		AgentDto dto = new AgentDto();
 		
 		if(agent.getId() != null) {
 			dto.setId(agent.getId());
-		}		
+		}
+		dto.setId(agent.getId());
 		dto.setEmail(agent.getEmail());
 		dto.setFullName(agent.getFullName());
 		dto.setDateRecrutement(agent.getDateRecrutement());

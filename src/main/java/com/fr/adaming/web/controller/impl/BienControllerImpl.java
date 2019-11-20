@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.service.IBienService;
@@ -17,6 +18,7 @@ import com.fr.adaming.web.dto.BienDto;
  *
  */
 @RestController
+@CrossOrigin
 public class BienControllerImpl implements IBienController {
 
 	@Autowired

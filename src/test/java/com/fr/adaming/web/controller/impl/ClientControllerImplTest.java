@@ -1,11 +1,17 @@
 package com.fr.adaming.web.controller.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Rule;
@@ -20,6 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.NestedServletException;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fr.adaming.ProjetImmobilierApplicationTests;
 import com.fr.adaming.enumeration.TypeClient;
 import com.fr.adaming.web.dto.ClientDto;
@@ -94,24 +101,49 @@ public class ClientControllerImplTest extends ProjetImmobilierApplicationTests{
 		mvc.perform(MockMvcRequestBuilders.get("/api/client/201/findById").contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
 	}
 	
+	
 	@Test
 	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void deleteExistingClient_shouldReturnStatus200() throws UnsupportedEncodingException, Exception {
+	public void UpdateExistingClient_shouldReturnStatus200AndTrue() throws UnsupportedEncodingException, Exception {
+		
+		ClientDto dto = new ClientDto(200L, "client@client.fr", "NouveauNomClient", "0101010102", TypeClient.VENDEUR);
+		
+		String response=mvc.perform(post("/api/client/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		assertEquals(response,"true");
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void UpdateNotExistingClient_shouldReturnStatus200AndFalse() throws UnsupportedEncodingException, Exception {
+		
+		ClientDto dto = new ClientDto(201L, "client@client.fr", "NouveauNomClient", "0101010102", TypeClient.VENDEUR);
+		
+		String response=mvc.perform(post("/api/client/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		
+		assertEquals(response,"false");
+	}
+	
+	
+	@Test
+	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void deleteExistingClient_shouldReturnStatus200AndTrue() throws UnsupportedEncodingException, Exception {
+		
 		ClientDto dto = new ClientDto(200L, "client@client.fr", "nomClient", "0101010101", TypeClient.ACHETEUR);
 		
-		mvc.perform(post("/api/client/delete").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().isOk());
+		String response=mvc.perform(post("/api/client/delete").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		
-		
+		assertEquals(response,"true");
 	}
 	
 	@Test
 	@Sql(statements = {"Delete From Client"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void deleteNotExistingClient_shouldReturnStatus200() throws UnsupportedEncodingException, Exception {
+	public void deleteNotExistingClient_shouldReturnStatus200AndFalse() throws UnsupportedEncodingException, Exception {
 		ClientDto dto = new ClientDto(2012L, "client@client.fr", "nomClient", "0101010101", TypeClient.ACHETEUR);
 		
-		mvc.perform(post("/api/client/delete").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().isOk());
+		String response=mvc.perform(post("/api/client/delete").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
 		
-		
+		assertEquals(response,"false");
 	}
 	
 	@Test
@@ -119,11 +151,13 @@ public class ClientControllerImplTest extends ProjetImmobilierApplicationTests{
 	public void getAllClients_shouldReturnStatus200() throws UnsupportedEncodingException, Exception {
 		
 		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/client/findAll").contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
-		
-		
-		List<ClientDto> response=(List<ClientDto>) jsonAsObject(bodyAsJson,List.class);
-	}
+			
+		List<ClientDto> response = mapper.readValue(bodyAsJson, new TypeReference<List<ClientDto>>() {});
 	
+		assertTrue(response.size()==2);
+        assertTrue(response.get(0).getEmail().equals("client@client.fr"));
+        assertTrue(response.get(1).getEmail().equals("client2@client2.fr"));
+	}
 	
 	
 }
