@@ -1,6 +1,6 @@
 package com.fr.adaming.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.fr.adaming.entity.Agent;
 /**
@@ -14,7 +14,7 @@ public interface IAgentService {
 	 * 
 	 * @return Renvoie la liste de tous les agents. Peut être vide.
 	 */
-	Collection<Agent> getAllAgents();
+	List<Agent> getAllAgents();
 
 	
 	/**

@@ -3,9 +3,11 @@ package com.fr.adaming.web.dto;
 import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +30,7 @@ public class AgentDto {
 	@Pattern(regexp = "0[1-9][0-9]{8}")
 	private String telephone;
 
-	@Pattern(regexp = "^[A-Z][0-9]{8,16}$")
+	@Size(min=8, max = 16)
 	private String pwd;
 
 	@PastOrPresent

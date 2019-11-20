@@ -1,13 +1,13 @@
 package com.fr.adaming.web.controller.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.entity.Bien;
 import com.fr.adaming.service.IBienService;
 import com.fr.adaming.web.controller.IBienController;
 import com.fr.adaming.web.converter.BienConverter;
@@ -16,6 +16,7 @@ import com.fr.adaming.web.dto.BienDto;
  * @author VITTOZ Guillaume
  *
  */
+@RestController
 public class BienControllerImpl implements IBienController {
 
 	@Autowired
@@ -23,30 +24,24 @@ public class BienControllerImpl implements IBienController {
 	private IBienService service;
 
 	@Override
-	public Collection<Bien> getAllBiens() {
-		return service.getAllBiens();
+	public List<BienDto> getAllBiens() {
+		return BienConverter.convert(service.getAllBiens());
 
 	}
 
 	@Override
-	public Bien getBienById(Long id) {
-		return service.getBienById(id);
-	}
-
-//	@Override
-//	public Bien findByPrix(int prix) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
-	@Override
-	public Bien saveBien(@Valid BienDto bienDto) {
-		return service.saveBien(BienConverter.convert(bienDto));
+	public BienDto getBienById(Long id) {
+		return BienConverter.convert(service.getBienById(id));
 	}
 
 	@Override
-	public Bien updateBien(@Valid BienDto bienDto) {
-		return service.updateBien(BienConverter.convert(bienDto));
+	public BienDto saveBien(@Valid BienDto bienDto) {
+		return BienConverter.convert(service.saveBien(BienConverter.convert(bienDto)));
+	}
+
+	@Override
+	public BienDto updateBien(@Valid BienDto bienDto) {
+		return BienConverter.convert(service.updateBien(BienConverter.convert(bienDto)));
 	}
 
 	@Override
@@ -55,8 +50,8 @@ public class BienControllerImpl implements IBienController {
 	}
 
 	@Override
-	public Bien modifEtatVente(@Valid BienDto bienDto) {
+	public BienDto modifEtatVente(@Valid BienDto bienDto) {
 		service.getBienById(bienDto.getId()).setVendu(bienDto.getVendu());
-		return service.getBienById(bienDto.getId());
+		return BienConverter.convert(service.getBienById(bienDto.getId()));
 	}
 }

@@ -50,7 +50,7 @@ public class BienServiceImplTest {
 
 	@Test
 	@Sql(statements = "Delete From Bien", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void createNotValidBien_shouldReturnException() {
+	public void createNotValidBien_shouldThrowException() {
 		exceptionRule.expect(DataIntegrityViolationException.class);
 		Bien bien = new Bien(null, null);
 		service.saveBien(bien);
@@ -141,7 +141,7 @@ public class BienServiceImplTest {
 	@Test
 	@Sql(statements = { "Delete From bien",
 			"INSERT INTO bien (id, prix, vendu) VALUES(1, 250000, false)" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void modifEtatVenteUnknownBien_shoudReturnException() {
+	public void modifEtatVenteUnknownBien_shoudThrowException() {
 		exceptionRule.expect(NoSuchElementException.class);
 		service.modifEtatVente(2L, true);
 		

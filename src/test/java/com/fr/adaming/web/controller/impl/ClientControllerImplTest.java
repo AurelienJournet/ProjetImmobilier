@@ -27,7 +27,7 @@ import com.fr.adaming.web.dto.ClientDto;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ClientControllerImplTest extends ProjetImmobilierApplicationTests{
-			
+
 	@Test
 	@Sql(statements = {"Delete From Client"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void addValidClient_shouldReturnStatus200() throws Exception {

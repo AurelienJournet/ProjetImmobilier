@@ -1,6 +1,6 @@
 package com.fr.adaming.service.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -19,7 +19,7 @@ public class BienServiceImpl implements IBienService {
 	@Autowired
 	private BienRepository dao;
 
-	public Collection<Bien> getAllBiens() {
+	public List<Bien> getAllBiens() {
 		return dao.findAll();
 	}
 
