@@ -1,11 +1,13 @@
 package com.fr.adaming.web.controller.impl;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,8 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.NestedServletException;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fr.adaming.ProjetImmobilierApplicationTests;
 import com.fr.adaming.web.dto.AgentDto;
+import com.fr.adaming.web.dto.ClientDto;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -132,6 +136,19 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 		exceptionRule.expect(NestedServletException.class);
 		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/201/getById").contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
 		System.out.println("DEBUG response : "+ bodyAsJson);
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (185,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132'),(186,'agent2@agent2.fr','pwdTailleOk2','nomAgent2','0632100131')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void getAllAgents_shouldReturnStatus200() throws UnsupportedEncodingException, Exception {
+		
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/agent/getAll").contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
+			
+		List<AgentDto> response = mapper.readValue(bodyAsJson, new TypeReference<List<AgentDto>>() {});
+	
+		assertEquals(response.size(),2);
+        assertTrue(response.get(0).getEmail().equals("agent@agent.fr"));
+        assertTrue(response.get(1).getEmail().equals("agent2@agent2.fr"));
 	}
 
 	

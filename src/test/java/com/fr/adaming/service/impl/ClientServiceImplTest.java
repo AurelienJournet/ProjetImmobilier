@@ -96,7 +96,7 @@ public class ClientServiceImplTest {
 		@Test
 		@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 		public void deleteUnknowClient_shouldReturnFalse() {
-			Client client=new Client("client2@client.fr","NomClient2",TypeClient.ACHETEUR);
+			Client client=new Client(2L,"client2@client.fr","NomClient2",TypeClient.ACHETEUR);
 			assertFalse(service.deleteClient(client));
 		}
 

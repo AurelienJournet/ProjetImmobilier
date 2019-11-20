@@ -1,11 +1,13 @@
 package com.fr.adaming.web.controller.impl;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,8 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.NestedServletException;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fr.adaming.ProjetImmobilierApplicationTests;
 import com.fr.adaming.web.dto.BienDto;
+import com.fr.adaming.web.dto.ClientDto;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -58,5 +62,18 @@ public class BienControllerImplTest extends ProjetImmobilierApplicationTests{
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
 		System.out.println("DEBUG DE LA METHODE GETALL : " + result);
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Bien","Insert into Bien (id, prix, vendu) VALUES(111, 250000, false),(222,500000,true)"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void getAllBiens_shouldReturnStatus200() throws UnsupportedEncodingException, Exception {
+		
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/bien/getAll").contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(200)).andReturn().getResponse().getContentAsString();
+			
+		List<BienDto> response = mapper.readValue(bodyAsJson, new TypeReference<List<BienDto>>() {});
+	
+		assertTrue(response.size()==2);
+        assertTrue(response.get(0).getPrix().equals(250000));
+        assertTrue(response.get(1).getPrix().equals(500000));
 	}
 }
