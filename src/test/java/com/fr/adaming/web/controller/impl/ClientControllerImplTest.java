@@ -122,11 +122,6 @@ public class ClientControllerImplTest extends ProjetImmobilierApplicationTests{
 		
 		
 		List<ClientDto> response=(List<ClientDto>) jsonAsObject(bodyAsJson,List.class);
-		
-		System.out.println(response.get(1).getEmail());
-		
-		;
-	
 	}
 	
 	
