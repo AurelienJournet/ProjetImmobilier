@@ -129,7 +129,6 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 		assertEquals("0632100132", response.getTelephone());
 		assertEquals("pwdTailleOk", response.getPwd());
 
-	
 	}
 	
 	@Test
@@ -162,7 +161,19 @@ public class AgentControllerImplTest extends ProjetImmobilierApplicationTests {
 	@Test
 	@Sql(statements = {"Delete From Agent","Insert into Agent (id,email,pwd,full_name,telephone) values (5,'agent@agent.fr','pwdTailleOk','nomAgent','0632100132')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 	public void updateValidAgent_ShouldReturnAgentUpdated() throws Exception {
+		AgentDto agent=new AgentDto(5L, "agentMODIF@agent.fr", "NomAgentMODIF", "0632100132","pwdEntre8et16",
+				null);
 		
+		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.post("/api/agent/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(agent))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+	
+		AgentDto response = mapper.readValue(bodyAsJson, AgentDto.class);
+		
+		assertNotNull(response);
+		assertEquals(5L, response.getId());
+		assertEquals("agentMODIF@agent.fr", response.getEmail());
+		assertEquals("nomAgentMODIF", response.getFullName());
+		assertEquals("0632100132", response.getTelephone());
+		assertEquals("pwdTailleOk", response.getPwd());
 	}
 	
 	@Test

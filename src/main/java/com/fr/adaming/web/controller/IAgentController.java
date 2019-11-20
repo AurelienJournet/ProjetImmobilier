@@ -26,7 +26,7 @@ public interface IAgentController {
 	@PostMapping(path = "/save", consumes = "application/json")
 	public AgentDto saveAgent(@RequestBody AgentDto agentDto);
 
-	@PutMapping(path = "/update")
+	@PostMapping(path = "/update")
 	public AgentDto updateAgent(@RequestBody AgentDto agentDto);
 
 	@GetMapping(path = "/{id}/delete")

@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.NestedServletException;
 
 import com.fr.adaming.ProjetImmobilierApplicationTests;
-import com.fr.adaming.web.dto.AgentDto;
+import com.fr.adaming.web.dto.BienDto;
 import com.fr.adaming.web.dto.BienDto;
 import com.fr.adaming.web.dto.BienDto;
 
