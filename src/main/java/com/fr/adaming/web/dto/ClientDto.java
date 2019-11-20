@@ -17,6 +17,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public class ClientDto {
 	
+	private Long id;
 	@Email
 	private String email;
 	@NotBlank
@@ -27,8 +28,9 @@ public class ClientDto {
 	
 	private TypeClient type;
 	
-	public ClientDto(@NotNull String email, String fullName,String telephone, TypeClient type) {
+	public ClientDto(Long id,String email, String fullName,String telephone, TypeClient type) {
 		super();
+		this.id=id;
 		this.email = email;
 		this.fullName = fullName;
 		this.telephone = telephone;

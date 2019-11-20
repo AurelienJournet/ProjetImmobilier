@@ -56,7 +56,7 @@ public class ClientServiceImpl implements IClientService {
 	@Transactional
 	public boolean deleteClient(Client client) {
 		
-		if(dao.exists(Example.of(client))) {
+		if(dao.existsById(client.getId())) {
 			dao.delete(client);
 			return true;
 		}

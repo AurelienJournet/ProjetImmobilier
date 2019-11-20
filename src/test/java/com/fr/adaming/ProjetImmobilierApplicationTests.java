@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -14,7 +16,7 @@ public class ProjetImmobilierApplicationTests {
 
 	@Autowired
 	protected MockMvc mvc;
-	protected ObjectMapper mapper = new ObjectMapper();
+	protected static ObjectMapper mapper = new ObjectMapper();
 	
 	@Test
 	void contextLoads() {
@@ -23,10 +25,25 @@ public class ProjetImmobilierApplicationTests {
 	
 	public static String asJsonString(final Object obj) {
 	    try {
-	        return new ObjectMapper().writeValueAsString(obj);
+	        return mapper.writeValueAsString(obj);
 	    } catch (Exception e) {
 	        throw new RuntimeException(e);
 	    }
+	}
+	
+	public static Object jsonAsObject(final String str,Class clazz) {
+	
+		try {
+			return mapper.readValue(str,clazz);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
