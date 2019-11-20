@@ -95,9 +95,9 @@ public class BienControllerImplTest extends ProjetImmobilierApplicationTests{
 	
 	@Test
 	public void foundById_BienNotFound_ShouldReturnNull() throws Exception {
-		exceptionRule.expect(NestedServletException.class);
 		String bodyAsJson = mvc.perform(MockMvcRequestBuilders.get("/api/bien/201/getById").contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
-		System.out.println("DEBUG response : "+ bodyAsJson);
+		
+		assertEquals(bodyAsJson,"");
 	}
 
 	

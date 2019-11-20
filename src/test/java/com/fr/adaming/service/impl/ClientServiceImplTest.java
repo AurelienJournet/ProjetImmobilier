@@ -81,10 +81,10 @@ public class ClientServiceImplTest {
 		
 		@Test
 		@Sql(statements = "Delete From Client",executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-		public void updateUnknowClient_shouldReturnFalse() {
+		public void updateUnknownClient_shouldReturnFalse() {
 			Client client=new Client(1L,"client@client.fr","NomClient",TypeClient.ACHETEUR);
 			assertFalse(service.updateClient(client));		
-		}
+		}	
 		
 		@Test
 		@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (1,'client@client.fr','nomClient',0101010101,'ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)

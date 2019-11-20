@@ -96,9 +96,10 @@ public class ClientControllerImplTest extends ProjetImmobilierApplicationTests{
 	
 	@Test
 	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-	public void getNotExistingClientById_shouldThrowException() throws Exception {		
-		exceptionRule.expect(NestedServletException.class);
-		mvc.perform(MockMvcRequestBuilders.get("/api/client/201/findById").contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
+	public void getNotExistingClientById_shouldReturnNull() throws Exception {		
+		String response=mvc.perform(MockMvcRequestBuilders.get("/api/client/201/findById").contentType(MediaType.APPLICATION_JSON)).andReturn().getResponse().getContentAsString();
+		
+		assertEquals(response,"");
 	}
 	
 	
@@ -123,6 +124,36 @@ public class ClientControllerImplTest extends ProjetImmobilierApplicationTests{
 		
 		assertEquals(response,"false");
 	}
+	
+	@Test
+	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void UpdateExistingClientWithNotValidMail_shouldReturnStatus400() throws UnsupportedEncodingException, Exception {
+		
+		ClientDto dto = new ClientDto(200L, "clientclientfr", "NouveauNomClient", "0101010102", TypeClient.VENDEUR);
+		
+		mvc.perform(post("/api/client/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().is(400));
+		
+		
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void UpdateExistingClientWithNotValidPhone_shouldReturnStatus400() throws UnsupportedEncodingException, Exception {
+		
+		ClientDto dto = new ClientDto(200L, "client@client.fr", "NouveauNomClient", "010101010210", TypeClient.VENDEUR);
+		
+		mvc.perform(post("/api/client/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().is(400));	
+	}
+	
+	@Test
+	@Sql(statements = {"Delete From Client","Insert into Client (id,email,full_name,telephone,type) values (200,'client@client.fr','nomClient','0101010101','ACHETEUR')"},executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+	public void UpdateExistingClientWithBlankName_shouldReturnStatus400() throws UnsupportedEncodingException, Exception {
+		
+		ClientDto dto = new ClientDto(200L, "client@client.fr", "  ", "0101010102", TypeClient.VENDEUR);
+		
+		mvc.perform(post("/api/client/update").contentType(MediaType.APPLICATION_JSON).content(asJsonString(dto))).andExpect(status().is(400));	
+	}
+	
 	
 	
 	@Test
